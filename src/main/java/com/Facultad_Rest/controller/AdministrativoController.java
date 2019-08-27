@@ -22,7 +22,7 @@ public class AdministrativoController {
 
     @GetMapping("")
     public ResponseEntity mostrarAdministrativos(){
-        return administrativoService.mostrarAdministrativos(CargoEnum.ADMINITRATIVO);
+        return administrativoService.mostrarAdministrativos(CargoEnum.ADMINISTRATIVO);
     }
 
     @PostMapping("")

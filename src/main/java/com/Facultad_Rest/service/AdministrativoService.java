@@ -30,7 +30,7 @@ public class AdministrativoService{
         if(empleadosRepository.getListaEmpleados().containsKey(administrativo.getDni())){
             return new ResponseEntity(HttpStatus.CONFLICT);
         }else{
-            if(administrativo.getCargo().equals(CargoEnum.ADMINITRATIVO)) {
+            if(administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
                 Empleado empleado1 = new Administrativo(administrativo.getNombre(), administrativo.getApellido(), administrativo.getDni(),
                         administrativo.getCargo(), administrativo.getAnioDeIncorpora(), administrativo.getSalario(), administrativo.getSeccion());
                 return new ResponseEntity(empleadosRepository.agregarEmpleado(empleado1), HttpStatus.CREATED);
