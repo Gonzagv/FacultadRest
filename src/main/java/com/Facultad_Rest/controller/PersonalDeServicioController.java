@@ -7,34 +7,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
-@RequestMapping("/v1/api/empleados")
+@RequestMapping("/v1/api/empleados/personaldeservicios")
 public class PersonalDeServicioController {
 
     @Autowired
     PersonalDeServicioService personalDeServicioService;
 
-    @GetMapping("/personaldeservicios/{dni}")
+    @GetMapping("/{dni}")
     public ResponseEntity buscarPersonalDeServicio(@PathVariable String dni){
        return personalDeServicioService.buscarPersonalServicio(dni);
     }
 
-    @GetMapping("/personaldeservicios")
+    @GetMapping("")
     public ResponseEntity mostrarListaPersonalServicio(){
         return personalDeServicioService.listaPersonalServicio(CargoEnum.PERSONAL_DE_SERVICIO);
     }
 
-    @PostMapping("/personaldeservicios")
-    public ResponseEntity agregarPersonalDeServicio(@RequestBody PersonalDeServicio personalDeServicio){
+    @PostMapping("")
+    public ResponseEntity agregarPersonalDeServicio(@Valid @RequestBody PersonalDeServicio personalDeServicio){
         return personalDeServicioService.agregarPersonalDeServicio(personalDeServicio);
     }
 
-    @PutMapping("/personaldeservicios/{dni}")
+    @PutMapping("/{dni}")
     public ResponseEntity modificarPersonalDeServicio(@PathVariable String dni, @RequestBody PersonalDeServicio personalDeServicio){
         return personalDeServicioService.modificarEmpleado(dni, personalDeServicio);
     }
 
-    @DeleteMapping("/personaldeservicios/{dni}")
+    @DeleteMapping("/{dni}")
     public ResponseEntity borrarPersonalDeServicio(@PathVariable String dni){
         return personalDeServicioService.borrarEmpleado(dni);
     }

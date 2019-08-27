@@ -1,8 +1,13 @@
 package com.Facultad_Rest.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class Empleado {
     private String nombre;
     private String apellido;
+    @NotNull
+    @NotEmpty
     private String dni;
     private CargoEnum cargo;
     private String anioDeIncorpora;

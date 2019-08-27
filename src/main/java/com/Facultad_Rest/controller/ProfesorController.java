@@ -5,35 +5,36 @@ import com.Facultad_Rest.service.ProfesorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/v1/api/empleados")
+@RequestMapping("/v1/api/empleados/profesores")
 
 public class ProfesorController {
     @Autowired
     ProfesorService profesorService;
 
-    @GetMapping("/profesores/{dni}")
+    @GetMapping("/{dni}")
     public ResponseEntity buscarProfesor(@PathVariable String dni){
        return profesorService.buscarProfesor(dni);
     }
 
-    @GetMapping("/profesores")
+    @GetMapping("")
     public ResponseEntity mostrarPorfesores(){
         return profesorService.mostrarProfesores();
     }
 
-    @PostMapping("/profesores")
-    public ResponseEntity agregarPorfesor(@RequestBody Profesor profesor){
+    @PostMapping("")
+    public ResponseEntity agregarPorfesor(@Valid @RequestBody Profesor profesor){
         return profesorService.agregarProfesor(profesor);
     }
 
-    @PutMapping("/profesores/{dni}")
+    @PutMapping("/{dni}")
     public ResponseEntity actualizarProfesor(@PathVariable String dni,@RequestBody Profesor profesor){
         return profesorService.actualizarProfesor(dni, profesor);
     }
 
-    @DeleteMapping("/profesores/{dni}")
+    @DeleteMapping("/{dni}")
     public ResponseEntity borrarPorfesor(@PathVariable String dni){
         return profesorService.borrarProfesor(dni);
     }
