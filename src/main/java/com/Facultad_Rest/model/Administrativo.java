@@ -2,19 +2,19 @@ package com.Facultad_Rest.model;
 
 public class Administrativo extends Empleado{
 
-    private String seccion;
+    private String sector;
 
-    public Administrativo(String nombre, String apellido, String dni, CargoEnum cargo, String anioDeIncorpora, int salario, String seccion) {
+    public Administrativo(String nombre, String apellido, String dni, CargoEnum cargo, String anioDeIncorpora, int salario, String sector) {
         super(nombre, apellido, dni, cargo, anioDeIncorpora, salario);
-        this.seccion = seccion;
+        this.sector = sector;
     }
 
-    public String getSeccion() {
-        return seccion;
+    public String getSector() {
+        return sector;
     }
 
-    public void setSeccion(String seccion) {
-        this.seccion = seccion;
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 
 }

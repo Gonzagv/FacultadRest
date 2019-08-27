@@ -32,7 +32,7 @@ public class AdministrativoService{
         }else{
             if(administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
                 Empleado empleado1 = new Administrativo(administrativo.getNombre(), administrativo.getApellido(), administrativo.getDni(),
-                        administrativo.getCargo(), administrativo.getAnioDeIncorpora(), administrativo.getSalario(), administrativo.getSeccion());
+                        administrativo.getCargo(), administrativo.getAnioDeIncorpora(), administrativo.getSalario(), administrativo.getSector());
                 return new ResponseEntity(empleadosRepository.agregarEmpleado(empleado1), HttpStatus.CREATED);
             }else{
                 return new ResponseEntity(HttpStatus.FORBIDDEN);
@@ -45,7 +45,7 @@ public class AdministrativoService{
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }else{
             Empleado empleado1 = new Administrativo(administrativo.getNombre(),administrativo.getApellido(),administrativo.getDni(),
-                    administrativo.getCargo(),administrativo.getAnioDeIncorpora(),administrativo.getSalario(),administrativo.getSeccion());
+                    administrativo.getCargo(),administrativo.getAnioDeIncorpora(),administrativo.getSalario(),administrativo.getSector());
             if(empleado1.getDni().equals(empleadosRepository.buscarEmpleado(dni).getDni())){
                 return new ResponseEntity(empleadosRepository.modificarEmpleado(empleado1.getDni(),empleado1), HttpStatus.OK);
             }else{
