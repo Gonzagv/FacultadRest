@@ -1,8 +1,8 @@
-package com.Facultad_Rest.respository;
+package com.facultad.respository;
 
 
-import com.Facultad_Rest.model.CargoEnum;
-import com.Facultad_Rest.model.Empleado;
+import com.facultad.model.CargoEnum;
+import com.facultad.model.Empleado;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;

@@ -1,7 +1,7 @@
-package com.Facultad_Rest.service;
+package com.facultad.service;
 
-import com.Facultad_Rest.model.Empleado;
-import com.Facultad_Rest.respository.EmpleadosRepository;
+import com.facultad.model.Empleado;
+import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

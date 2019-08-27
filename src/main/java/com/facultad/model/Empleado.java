@@ -1,4 +1,4 @@
-package com.Facultad_Rest.model;
+package com.facultad.model;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

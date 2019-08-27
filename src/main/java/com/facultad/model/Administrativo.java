@@ -1,4 +1,4 @@
-package com.Facultad_Rest.model;
+package com.facultad.model;
 
 public class Administrativo extends Empleado{
 

@@ -1,8 +1,8 @@
-package com.Facultad_Rest.controller;
+package com.facultad.controller;
 
-import com.Facultad_Rest.model.Administrativo;
-import com.Facultad_Rest.model.CargoEnum;
-import com.Facultad_Rest.service.AdministrativoService;
+import com.facultad.model.Administrativo;
+import com.facultad.model.CargoEnum;
+import com.facultad.service.AdministrativoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

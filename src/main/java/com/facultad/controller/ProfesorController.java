@@ -1,7 +1,7 @@
-package com.Facultad_Rest.controller;
+package com.facultad.controller;
 
-import com.Facultad_Rest.model.Profesor;
-import com.Facultad_Rest.service.ProfesorService;
+import com.facultad.model.Profesor;
+import com.facultad.service.ProfesorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

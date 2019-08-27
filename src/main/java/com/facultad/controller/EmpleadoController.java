@@ -1,6 +1,6 @@
-package com.Facultad_Rest.controller;
+package com.facultad.controller;
 
-import com.Facultad_Rest.service.EmpleadoService;
+import com.facultad.service.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

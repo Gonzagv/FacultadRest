@@ -1,21 +1,20 @@
-package com.Facultad_Rest.service;
+package com.facultad.service;
 
-import com.Facultad_Rest.model.CargoEnum;
-import com.Facultad_Rest.model.Empleado;
-import com.Facultad_Rest.model.PersonalDeServicio;
-import com.Facultad_Rest.respository.EmpleadosRepository;
+import com.facultad.model.Administrativo;
+import com.facultad.model.CargoEnum;
+import com.facultad.model.Empleado;
+import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PersonalDeServicioService {
-
+public class AdministrativoService{
     @Autowired
     EmpleadosRepository empleadosRepository;
 
-    public ResponseEntity buscarPersonalServicio(String dni){
+    public ResponseEntity buscarAdministrativo(String dni){
         if(empleadosRepository.getListaEmpleados().containsKey(dni)){
             return new ResponseEntity(empleadosRepository.buscarEmpleado(dni), HttpStatus.OK);
         }else{
@@ -23,30 +22,30 @@ public class PersonalDeServicioService {
         }
     }
 
-    public ResponseEntity listaPersonalServicio(CargoEnum cargo){
+    public ResponseEntity mostrarAdministrativos(CargoEnum cargo){
         return new ResponseEntity(empleadosRepository.listaPorCargo(cargo), HttpStatus.OK);
     }
 
-    public ResponseEntity agregarPersonalDeServicio(PersonalDeServicio personalDeServicio) {
-        if (empleadosRepository.getListaEmpleados().containsKey(personalDeServicio.getDni())) {
+    public ResponseEntity agregarAdministrativo(Administrativo administrativo){
+        if(empleadosRepository.getListaEmpleados().containsKey(administrativo.getDni())){
             return new ResponseEntity(HttpStatus.CONFLICT);
-        } else {
-            if (personalDeServicio.getCargo().equals(CargoEnum.PERSONAL_DE_SERVICIO)) {
-                Empleado empleado1 = new PersonalDeServicio(personalDeServicio.getNombre(), personalDeServicio.getApellido(), personalDeServicio.getDni(), personalDeServicio.getCargo(),
-                        personalDeServicio.getAnioDeIncorpora(), personalDeServicio.getSalario(), personalDeServicio.getSeccion());
+        }else{
+            if(administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
+                Empleado empleado1 = new Administrativo(administrativo.getNombre(), administrativo.getApellido(), administrativo.getDni(),
+                        administrativo.getCargo(), administrativo.getAnioDeIncorpora(), administrativo.getSalario(), administrativo.getSector());
                 return new ResponseEntity(empleadosRepository.agregarEmpleado(empleado1), HttpStatus.CREATED);
-            } else {
+            }else{
                 return new ResponseEntity(HttpStatus.FORBIDDEN);
             }
         }
     }
 
-    public ResponseEntity modificarEmpleado(String dni, PersonalDeServicio personalDeServicio){
-        if(personalDeServicio==null){
+    public ResponseEntity modificarAdministrativo(String dni, Administrativo administrativo){
+        if(administrativo==null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }else{
-            Empleado empleado1 = new PersonalDeServicio(personalDeServicio.getNombre(),personalDeServicio.getApellido(),personalDeServicio.getDni(),personalDeServicio.getCargo(),
-                    personalDeServicio.getAnioDeIncorpora(),personalDeServicio.getSalario(),personalDeServicio.getSeccion());
+            Empleado empleado1 = new Administrativo(administrativo.getNombre(),administrativo.getApellido(),administrativo.getDni(),
+                    administrativo.getCargo(),administrativo.getAnioDeIncorpora(),administrativo.getSalario(),administrativo.getSector());
             if(empleado1.getDni().equals(empleadosRepository.buscarEmpleado(dni).getDni())){
                 return new ResponseEntity(empleadosRepository.modificarEmpleado(empleado1.getDni(),empleado1), HttpStatus.OK);
             }else{
@@ -55,12 +54,11 @@ public class PersonalDeServicioService {
         }
     }
 
-    public ResponseEntity borrarEmpleado(String dni){
+    public ResponseEntity borrarAdministrativo(String dni){
         if(empleadosRepository.getListaEmpleados().containsKey(dni)){
             return new ResponseEntity(empleadosRepository.borrarEmpleado(dni), HttpStatus.OK);
         }else{
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
-
 }

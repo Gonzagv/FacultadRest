@@ -1,4 +1,4 @@
-package com.Facultad_Rest.model;
+package com.facultad.model;
 
 public class PersonalDeServicio extends Empleado {
     private String seccion;
