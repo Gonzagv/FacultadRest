@@ -1,4 +1,4 @@
-package com.Facultad_Rest;
+package com.facultad;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
