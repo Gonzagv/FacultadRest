@@ -11,16 +11,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AdministrativoService{
+
     @Autowired
     EmpleadosRepository empleadosRepository;
 
-    public ResponseEntity buscarAdministrativo(String dni){
-        if(empleadosRepository.getListaEmpleados().containsKey(dni)){
+    public ResponseEntity buscarAdministrativo(String dni) {
+        if (empleadosRepository.getListaEmpleados().containsKey(dni) && empleadosRepository.getListaEmpleados().get(dni).getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
             return new ResponseEntity(empleadosRepository.buscarEmpleado(dni), HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
+
 
     public ResponseEntity mostrarAdministrativos(CargoEnum cargo){
         return new ResponseEntity(empleadosRepository.listaPorCargo(cargo), HttpStatus.OK);
@@ -46,18 +48,19 @@ public class AdministrativoService{
         }else{
             Empleado empleado1 = new Administrativo(administrativo.getNombre(),administrativo.getApellido(),administrativo.getDni(),
                     administrativo.getCargo(),administrativo.getAnioDeIncorpora(),administrativo.getSalario(),administrativo.getSector());
-            if(empleado1.getDni().equals(empleadosRepository.buscarEmpleado(dni).getDni())){
-                return new ResponseEntity(empleadosRepository.modificarEmpleado(empleado1.getDni(),empleado1), HttpStatus.OK);
+            if(empleado1.getDni().equals(empleadosRepository.buscarEmpleado(dni).getDni())&&empleadosRepository.getListaEmpleados()
+                    .get(administrativo.getDni()).getCargo().equals(CargoEnum.ADMINISTRATIVO)){
+                return new ResponseEntity(empleadosRepository.modificarEmpleado(empleado1.getDni(), empleado1), HttpStatus.OK);
             }else{
                 return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
             }
         }
     }
 
-    public ResponseEntity borrarAdministrativo(String dni){
-        if(empleadosRepository.getListaEmpleados().containsKey(dni)){
+    public ResponseEntity borrarAdministrativo(String dni) {
+        if (empleadosRepository.getListaEmpleados().containsKey(dni)&&empleadosRepository.getListaEmpleados().get(dni).getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
             return new ResponseEntity(empleadosRepository.borrarEmpleado(dni), HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }

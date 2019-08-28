@@ -12,11 +12,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProfesorService {
+
     @Autowired
     EmpleadosRepository empleadosRepository;
 
-    public ResponseEntity buscarProfesor(String dni){
-        return new ResponseEntity(empleadosRepository.buscarEmpleado(dni), HttpStatus.OK);
+    public ResponseEntity buscarProfesor(String dni) {
+        if (empleadosRepository.getListaEmpleados().containsKey(dni) && empleadosRepository.getListaEmpleados().get(dni).getCargo().equals(CargoEnum.PROFESOR)) {
+            return new ResponseEntity(empleadosRepository.buscarEmpleado(dni), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     public ResponseEntity mostrarProfesores(){
@@ -36,7 +41,7 @@ public class ProfesorService {
     }
 
     public ResponseEntity actualizarProfesor(String dni, Profesor profesor){
-        if(profesor==null){
+        if(profesor==null || !profesor.getCargo().equals(CargoEnum.PROFESOR)){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }else{
             Empleado profesor1 = new Profesor(profesor.getNombre(),profesor.getApellido(),profesor.getDni(),profesor.getCargo(),
@@ -50,7 +55,8 @@ public class ProfesorService {
     }
 
     public ResponseEntity borrarProfesor(String dni){
-        if(empleadosRepository.getListaEmpleados().containsKey(dni)){
+        if(empleadosRepository.getListaEmpleados().containsKey(dni) && empleadosRepository.getListaEmpleados().get(dni)
+                .getCargo().equals(CargoEnum.PERSONAL_DE_SERVICIO)){
             return new ResponseEntity(empleadosRepository.borrarEmpleado(dni), HttpStatus.OK);
         }else{
             return new ResponseEntity(HttpStatus.NOT_FOUND);

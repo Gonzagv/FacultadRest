@@ -33,7 +33,7 @@ public class PersonalDeServicioController {
 
     @PutMapping("/{dni}")
     public ResponseEntity modificarPersonalDeServicio(@PathVariable String dni, @RequestBody PersonalDeServicio personalDeServicio){
-        return personalDeServicioService.modificarEmpleado(dni, personalDeServicio);
+        return personalDeServicioService.modificarEmpleadoServicio(dni, personalDeServicio);
     }
 
     @DeleteMapping("/{dni}")
