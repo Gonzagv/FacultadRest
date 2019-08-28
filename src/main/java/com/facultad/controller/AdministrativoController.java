@@ -10,33 +10,23 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/v1/api/empleados/administrativos")
+@RequestMapping("/v1/api")
 public class AdministrativoController {
     @Autowired
     AdministrativoService administrativoService;
 
-    @GetMapping("/{dni}")
-    public ResponseEntity buscarAdministrativo(@PathVariable String dni){
-        return administrativoService.buscarAdministrativo(dni);
+    @GetMapping("/empleados/administrativos")
+    public ResponseEntity mostrarEmpleadosAdministrativos(){
+        return administrativoService.mostrarEmpleadosAdministrativos(CargoEnum.ADMINISTRATIVO);
     }
 
-    @GetMapping("")
-    public ResponseEntity mostrarAdministrativos(){
-        return administrativoService.mostrarAdministrativos(CargoEnum.ADMINISTRATIVO);
+    @PostMapping("/empleados/administrativos")
+    public ResponseEntity agregarEmpleadoAdministrativo(@Valid @RequestBody Administrativo administrativo){
+        return administrativoService.agregarEmpleadoAdministrativo(administrativo);
     }
 
-    @PostMapping("")
-    public ResponseEntity agregarAdministrativo(@Valid @RequestBody Administrativo administrativo){
-        return administrativoService.agregarAdministrativo(administrativo);
-    }
-
-    @PutMapping("/{dni}")
-    public ResponseEntity modificarAdministrativo(@PathVariable String dni, @RequestBody Administrativo administrativo){
+    @PutMapping("/empleados/administrativos/{dni}")
+    public ResponseEntity modificarEmpleadoAdministrativo(@PathVariable String dni, @RequestBody Administrativo administrativo){
         return administrativoService.modificarAdministrativo(dni, administrativo);
-    }
-
-    @DeleteMapping("/{dni}")
-    public ResponseEntity borrarAdministrativo(@PathVariable String dni){
-        return administrativoService.borrarAdministrativo(dni);
     }
 }

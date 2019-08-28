@@ -10,35 +10,24 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/v1/api/empleados/personaldeservicios")
+@RequestMapping("/v1/api")
 public class PersonalDeServicioController {
 
     @Autowired
     PersonalDeServicioService personalDeServicioService;
 
-    @GetMapping("/{dni}")
-    public ResponseEntity buscarPersonalDeServicio(@PathVariable String dni){
-       return personalDeServicioService.buscarPersonalServicio(dni);
-    }
-
-    @GetMapping("")
-    public ResponseEntity mostrarListaPersonalServicio(){
+    @GetMapping("/empleados/personaldeservicios")
+    public ResponseEntity obtenerEmpleadosPersonalServicio(){
         return personalDeServicioService.listaPersonalServicio(CargoEnum.PERSONAL_DE_SERVICIO);
     }
 
-    @PostMapping("")
-    public ResponseEntity agregarPersonalDeServicio(@Valid @RequestBody PersonalDeServicio personalDeServicio){
+    @PostMapping("/empleados/personaldeservicios")
+    public ResponseEntity agregarEmpleadoPersonalDeServicio(@Valid @RequestBody PersonalDeServicio personalDeServicio){
         return personalDeServicioService.agregarPersonalDeServicio(personalDeServicio);
     }
 
-    @PutMapping("/{dni}")
-    public ResponseEntity modificarPersonalDeServicio(@PathVariable String dni, @RequestBody PersonalDeServicio personalDeServicio){
+    @PutMapping("/empleados/personaldeservicios/{dni}")
+    public ResponseEntity modificarEmpleadoPersonalDeServicio(@PathVariable String dni, @RequestBody PersonalDeServicio personalDeServicio){
         return personalDeServicioService.modificarEmpleadoServicio(dni, personalDeServicio);
     }
-
-    @DeleteMapping("/{dni}")
-    public ResponseEntity borrarPersonalDeServicio(@PathVariable String dni){
-        return personalDeServicioService.borrarEmpleado(dni);
-    }
-
 }

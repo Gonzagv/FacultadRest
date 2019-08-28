@@ -11,14 +11,13 @@ import org.springframework.stereotype.Service;
 public class EmpleadoService {
 
     @Autowired
-    EmpleadosRepository empleadosRepository;
+    private EmpleadosRepository empleadosRepository;
 
-    public ResponseEntity buscarEmpleado(String dni){
-        Empleado empleado1=empleadosRepository.buscarEmpleado(dni);
-        if(empleado1==null){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+    public ResponseEntity obtenerEmpleado(String dni){
+        if(empleadosRepository.getListaEmpleados().containsKey(dni)){
+            return new ResponseEntity(empleadosRepository.buscarEmpleado(dni), HttpStatus.OK);
         }else{
-            return new ResponseEntity(empleado1, HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -26,15 +25,11 @@ public class EmpleadoService {
         return new ResponseEntity(empleadosRepository.mostrarEmpleados(), HttpStatus.OK);
     }
 
-    public ResponseEntity crearEmpleado(Empleado empleado){
-        return new ResponseEntity(empleadosRepository.agregarEmpleado(empleado), HttpStatus.OK);
-    }
-
-    public ResponseEntity actualizarEmpleado(String dni, Empleado empleado){
-        return new ResponseEntity(empleadosRepository.modificarEmpleado(dni, empleado), HttpStatus.OK);
-    }
-
     public ResponseEntity borrarEmpleado(String dni){
-        return new ResponseEntity(empleadosRepository.borrarEmpleado(dni),HttpStatus.OK);
+        if(empleadosRepository.getListaEmpleados().containsKey(dni)) {
+            return new ResponseEntity(empleadosRepository.borrarEmpleado(dni), HttpStatus.OK);
+        }else{
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 }

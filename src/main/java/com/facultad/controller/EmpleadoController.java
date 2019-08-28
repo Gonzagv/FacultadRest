@@ -6,24 +6,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/api/empleados")
+@RequestMapping("/v1/api")
 public class EmpleadoController {
     @Autowired
     EmpleadoService empleadoService;
 
-    @GetMapping("/{dni}")
+    @GetMapping("/empleados/{dni}")
     public ResponseEntity buscarEmpleado(@PathVariable String dni){
-        return empleadoService.buscarEmpleado(dni);
+        return empleadoService.obtenerEmpleado(dni);
     }
 
-    @GetMapping("")
+    @GetMapping("/empleados")
     public ResponseEntity mostrarEmpleados(){
         return empleadoService.mostrarEmpleados();
     }
 
-    @DeleteMapping("/{dni}")
+    @DeleteMapping("/empleados/{dni}")
     public ResponseEntity borrarEmpleado(@PathVariable String dni){
         return empleadoService.borrarEmpleado(dni);
     }
-
 }

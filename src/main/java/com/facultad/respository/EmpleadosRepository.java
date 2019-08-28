@@ -19,41 +19,25 @@ public class EmpleadosRepository {
         return listaEmpleados;
     }
 
-    public Empleado buscarEmpleado(String dni){
-        if (listaEmpleados.containsKey(dni)) {
-            return listaEmpleados.get(dni);
-        }else{
-            return null;
-        }
+    public Empleado buscarEmpleado(String dni) {
+        return listaEmpleados.get(dni);
     }
 
-    public Empleado agregarEmpleado(Empleado empleado){
-        if(!listaEmpleados.containsKey(empleado.getDni())) {
-            listaEmpleados.put(empleado.getDni(), empleado);
-            return empleado;
-        }else{
-            return null;
-        }
+    public Empleado agregarEmpleado(Empleado empleado) {
+        listaEmpleados.put(empleado.getDni(), empleado);
+        return empleado;
     }
 
-    public Empleado modificarEmpleado(String dni,Empleado empleado){
-        if(listaEmpleados.containsKey(dni)){
-            listaEmpleados.put(empleado.getDni(), empleado);
-            return empleado;
-        }else{
-            return null;
-        }
+    public Empleado modificarEmpleado(String dni, Empleado empleado) {
+        listaEmpleados.put(empleado.getDni(), empleado);
+        return empleado;
     }
 
     public Empleado borrarEmpleado(String dni) {
-        if (listaEmpleados.containsKey(dni)) {
-            return listaEmpleados.remove(dni);
-        } else {
-            return null;
-        }
+        return listaEmpleados.remove(dni);
     }
 
-    public Collection<Empleado> listaPorCargo(CargoEnum cargo){
+    public Collection<Empleado> listaPorCargo(CargoEnum cargo) {
         return listaEmpleados.values().stream().filter(empleado -> empleado.getCargo().equals(cargo))
                 .collect(Collectors.toList());
     }
