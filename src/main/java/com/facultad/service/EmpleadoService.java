@@ -14,20 +14,20 @@ public class EmpleadoService {
     private EmpleadosRepository empleadosRepository;
 
     public ResponseEntity obtenerEmpleado(String dni){
-        if(empleadosRepository.getListaEmpleados().containsKey(dni)){
-            return new ResponseEntity(empleadosRepository.buscarEmpleado(dni), HttpStatus.OK);
+        if(empleadosRepository.existsByDni(dni)){
+            return new ResponseEntity(empleadosRepository.findByDni(dni), HttpStatus.OK);
         }else{
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     public ResponseEntity mostrarEmpleados(){
-        return new ResponseEntity(empleadosRepository.mostrarEmpleados(), HttpStatus.OK);
+        return new ResponseEntity(empleadosRepository.findAll(), HttpStatus.OK);
     }
 
     public ResponseEntity borrarEmpleado(String dni){
-        if(empleadosRepository.getListaEmpleados().containsKey(dni)) {
-            return new ResponseEntity(empleadosRepository.borrarEmpleado(dni), HttpStatus.OK);
+        if(empleadosRepository.existsByDni(dni)) {
+            return new ResponseEntity(empleadosRepository.deleteByDni(dni), HttpStatus.OK);
         }else{
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

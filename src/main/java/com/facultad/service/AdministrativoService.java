@@ -18,17 +18,15 @@ public class AdministrativoService{
     private EmpleadosRepository empleadosRepository;
 
     public ResponseEntity mostrarEmpleadosAdministrativos(CargoEnum cargo){
-        return new ResponseEntity(empleadosRepository.listaPorCargo(cargo), HttpStatus.OK);
+        return new ResponseEntity(empleadosRepository.findByCargo(cargo), HttpStatus.OK);
     }
 
     public ResponseEntity agregarEmpleadoAdministrativo(Administrativo administrativo){
-        if(empleadosRepository.getListaEmpleados().containsKey(administrativo.getDni())){
+        if(empleadosRepository.existsByDni(administrativo.getId())){
             return new ResponseEntity(HttpStatus.CONFLICT);
         }else{
             if(administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
-                Empleado empleado1 = new Administrativo(administrativo.getNombre(), administrativo.getApellido(), administrativo.getDni(),
-                        administrativo.getCargo(), administrativo.getAnioDeIncorpora(), administrativo.getSalario(), administrativo.getSector());
-                return new ResponseEntity(empleadosRepository.agregarEmpleado(empleado1), HttpStatus.CREATED);
+                return new ResponseEntity(empleadosRepository.save(administrativo), HttpStatus.CREATED);
             }else{
                 return new ResponseEntity(HttpStatus.FORBIDDEN);
             }
@@ -36,12 +34,13 @@ public class AdministrativoService{
     }
 
     public ResponseEntity modificarAdministrativo(String dni, @NotNull Administrativo administrativo) {
-        if (administrativo.getDni().equals(empleadosRepository.buscarEmpleado(dni).getDni())) {
-            Empleado empleado1 = new Administrativo(administrativo.getNombre(), administrativo.getApellido(), administrativo.getDni(),
-                    administrativo.getCargo(), administrativo.getAnioDeIncorpora(), administrativo.getSalario(), administrativo.getSector());
-            return new ResponseEntity(empleadosRepository.modificarEmpleado(empleado1.getDni(), empleado1), HttpStatus.OK);
+        if (administrativo.getDni().equals(empleadosRepository.findByDni(administrativo.getDni()).getDni())) {
+            empleadosRepository.deleteByDni(dni);
+            return new ResponseEntity(empleadosRepository.save(administrativo), HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.facultad.controller;
 
+import com.facultad.model.CargoEnum;
 import com.facultad.model.Profesor;
 import com.facultad.service.ProfesorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class ProfesorController {
 
     @GetMapping("/empleados/profesores")
     public ResponseEntity mostrarEmpleadosPorfesores(){
-        return profesorService.mostrarEmpleadosProfesores();
+        return profesorService.mostrarEmpleadosProfesores(CargoEnum.PROFESOR);
     }
 
     @PostMapping("/empleados/profesores")

@@ -18,17 +18,15 @@ public class PersonalDeServicioService {
     private EmpleadosRepository empleadosRepository;
 
     public ResponseEntity listaPersonalServicio(CargoEnum cargo) {
-        return new ResponseEntity(empleadosRepository.listaPorCargo(cargo), HttpStatus.OK);
+        return new ResponseEntity(empleadosRepository.findByCargo(cargo), HttpStatus.OK);
     }
 
     public ResponseEntity agregarPersonalDeServicio(PersonalDeServicio personalDeServicio) {
-        if (empleadosRepository.getListaEmpleados().containsKey(personalDeServicio.getDni())) {
+        if (empleadosRepository.existsByDni(personalDeServicio.getDni())) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         } else {
             if (personalDeServicio.getCargo().equals(CargoEnum.PERSONAL_DE_SERVICIO)) {
-                Empleado empleado1 = new PersonalDeServicio(personalDeServicio.getNombre(), personalDeServicio.getApellido(), personalDeServicio.getDni(), personalDeServicio.getCargo(),
-                        personalDeServicio.getAnioDeIncorpora(), personalDeServicio.getSalario(), personalDeServicio.getSeccion());
-                return new ResponseEntity(empleadosRepository.agregarEmpleado(empleado1), HttpStatus.CREATED);
+                return new ResponseEntity(empleadosRepository.save(personalDeServicio), HttpStatus.CREATED);
             } else {
                 return new ResponseEntity(HttpStatus.FORBIDDEN);
             }
@@ -36,13 +34,12 @@ public class PersonalDeServicioService {
     }
 
     public ResponseEntity modificarEmpleadoServicio(String dni, @NotNull PersonalDeServicio personalDeServicio) {
-        if (!empleadosRepository.getListaEmpleados().containsKey(personalDeServicio.getDni())) {
+        if (!empleadosRepository.existsByDni(personalDeServicio.getDni())) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
-            if (personalDeServicio.getDni().equals(empleadosRepository.buscarEmpleado(dni).getDni())){
-                Empleado empleado1 = new PersonalDeServicio(personalDeServicio.getNombre(), personalDeServicio.getApellido(), personalDeServicio.getDni(), personalDeServicio.getCargo(),
-                        personalDeServicio.getAnioDeIncorpora(), personalDeServicio.getSalario(), personalDeServicio.getSeccion());
-                return new ResponseEntity(empleadosRepository.modificarEmpleado(empleado1.getDni(), empleado1), HttpStatus.OK);
+            if (personalDeServicio.getDni().equals(empleadosRepository.findByDni(dni).getDni())){
+                empleadosRepository.deleteByDni(dni);
+                return new ResponseEntity(empleadosRepository.save(personalDeServicio), HttpStatus.OK);
             } else {
                 return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
             }

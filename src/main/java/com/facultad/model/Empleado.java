@@ -1,9 +1,14 @@
 package com.facultad.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
+@Document(collection = "empleado")
 public class Empleado {
+    @Id
+    private String id;
     private String nombre;
     private String apellido;
     @NotNull
@@ -61,6 +66,14 @@ public class Empleado {
 
     public String getAnioDeIncorpora() {
         return anioDeIncorpora;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setAnioDeIncorpora(String anioDeIncorpora) {

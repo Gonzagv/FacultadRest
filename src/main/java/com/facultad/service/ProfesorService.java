@@ -18,16 +18,16 @@ public class ProfesorService {
     @Autowired
     private EmpleadosRepository empleadosRepository;
 
-    public ResponseEntity mostrarEmpleadosProfesores(){
-        return new ResponseEntity(empleadosRepository.listaPorCargo(CargoEnum.PROFESOR),HttpStatus.OK);
+    public ResponseEntity mostrarEmpleadosProfesores(CargoEnum cargo){
+        return new ResponseEntity(empleadosRepository.findByCargo(cargo),HttpStatus.OK);
     }
 
     public ResponseEntity agregarEmpleadoProfesor(Profesor profesor){
-        if(empleadosRepository.getListaEmpleados().containsKey(profesor.getDni())){
+        if(empleadosRepository.existsByDni(profesor.getDni())){
             return new ResponseEntity(HttpStatus.CONFLICT);
         }else{
             if(profesor.getCargo().equals(CargoEnum.PROFESOR)) {
-                return new ResponseEntity(empleadosRepository.agregarEmpleado(profesor), HttpStatus.CREATED);
+                return new ResponseEntity(empleadosRepository.save(profesor), HttpStatus.CREATED);
             }else{
                 return new ResponseEntity(HttpStatus.FORBIDDEN);
             }
@@ -35,13 +35,12 @@ public class ProfesorService {
     }
 
     public ResponseEntity actualizarEmpleadoProfesor(String dni, @NotNull Profesor profesor){
-        if(!empleadosRepository.getListaEmpleados().containsKey(profesor.getDni())){
+        if(!empleadosRepository.existsByDni(profesor.getDni())){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }else{
-            if(profesor.getDni().equals(empleadosRepository.buscarEmpleado(dni).getDni())){
-                Empleado profesor1 = new Profesor(profesor.getNombre(),profesor.getApellido(),profesor.getDni(),profesor.getCargo(),
-                        profesor.getAnioDeIncorpora(),profesor.getSalario(),profesor.getMateria(),profesor.getCatedra());
-                return new ResponseEntity(empleadosRepository.modificarEmpleado(profesor1.getDni(),profesor1), HttpStatus.OK);
+            if(profesor.getDni().equals(empleadosRepository.findByDni(dni).getDni())){
+                empleadosRepository.deleteByDni(dni);
+                return new ResponseEntity(empleadosRepository.save(profesor), HttpStatus.OK);
             }else{
                 return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
             }

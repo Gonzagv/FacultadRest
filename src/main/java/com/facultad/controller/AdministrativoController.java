@@ -16,7 +16,7 @@ public class AdministrativoController {
     AdministrativoService administrativoService;
 
     @GetMapping("/empleados/administrativos")
-    public ResponseEntity mostrarEmpleadosAdministrativos(){
+    public ResponseEntity obtenerEmpleadosAdministrativos(){
         return administrativoService.mostrarEmpleadosAdministrativos(CargoEnum.ADMINISTRATIVO);
     }
 
