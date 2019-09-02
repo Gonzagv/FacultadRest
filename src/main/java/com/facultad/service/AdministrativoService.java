@@ -2,7 +2,6 @@ package com.facultad.service;
 
 import com.facultad.model.Administrativo;
 import com.facultad.model.CargoEnum;
-import com.facultad.model.Empleado;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,11 +33,21 @@ public class AdministrativoService{
     }
 
     public ResponseEntity modificarAdministrativo(String dni, @NotNull Administrativo administrativo) {
-        if (administrativo.getDni().equals(empleadosRepository.findByDni(administrativo.getDni()).getDni())) {
-            empleadosRepository.deleteByDni(dni);
-            return new ResponseEntity(empleadosRepository.save(administrativo), HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+        if(!empleadosRepository.existsByDni(dni)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }else {
+            if (administrativo.getDni().equals(dni) && administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
+                Administrativo administrativo1 = (Administrativo) empleadosRepository.findByDni(dni);
+                administrativo1.setNombre(administrativo.getNombre());
+                administrativo1.setApellido(administrativo.getApellido());
+                administrativo1.setSector(administrativo.getSector());
+                administrativo1.setAnioDeIncorpora(administrativo.getAnioDeIncorpora());
+                administrativo1.setSalario(administrativo.getSalario());
+                administrativo1.setCargo(administrativo.getCargo());
+                return new ResponseEntity(empleadosRepository.save(administrativo1), HttpStatus.OK);
+            } else {
+                return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+            }
         }
     }
 
