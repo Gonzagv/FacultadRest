@@ -33,17 +33,16 @@ public class AdministrativoService{
     }
 
     public ResponseEntity modificarAdministrativo(String dni, @NotNull Administrativo administrativo) {
-        if(!empleadosRepository.existsByDni(dni)) {
+        if(!empleadosRepository.existsByDni(dni) && administrativo.getDni().equals(dni)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }else {
-            if (administrativo.getDni().equals(dni) && administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
+            if (empleadosRepository.findByDni(dni).getCargo().equals(CargoEnum.ADMINISTRATIVO) && administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
                 Administrativo administrativo1 = (Administrativo) empleadosRepository.findByDni(dni);
                 administrativo1.setNombre(administrativo.getNombre());
                 administrativo1.setApellido(administrativo.getApellido());
                 administrativo1.setSector(administrativo.getSector());
                 administrativo1.setAnioDeIncorpora(administrativo.getAnioDeIncorpora());
                 administrativo1.setSalario(administrativo.getSalario());
-                administrativo1.setCargo(administrativo.getCargo());
                 return new ResponseEntity(empleadosRepository.save(administrativo1), HttpStatus.OK);
             } else {
                 return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
