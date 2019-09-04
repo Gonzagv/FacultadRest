@@ -5,7 +5,7 @@ public class PersonalDeServicio extends Empleado {
 
     public PersonalDeServicio(){}
 
-    public PersonalDeServicio(String nombre, String apellido,String dni, CargoEnum cargo, String anioDeIncorpora, int salario, String seccion) {
+    public PersonalDeServicio(String nombre, String apellido,String dni, CargoEnum cargo, String anioDeIncorpora, Double salario, String seccion) {
         super(nombre, apellido, dni, cargo, anioDeIncorpora, salario);
         this.seccion = seccion;
     }

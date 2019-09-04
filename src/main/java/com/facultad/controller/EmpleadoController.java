@@ -16,9 +16,14 @@ public class EmpleadoController {
         return empleadoService.obtenerEmpleado(dni);
     }
 
+    @GetMapping("/empleados/nombre")
+    public ResponseEntity mostrarEmpleadosPorNombre(@RequestParam String nombre){
+        return empleadoService.mostrarEmpleadosPorNombre(nombre);
+    }
+
     @GetMapping("/empleados")
-    public ResponseEntity mostrarEmpleados(){
-        return empleadoService.mostrarEmpleados();
+    public ResponseEntity buscarPorSueldo(@RequestParam (required = false) Double salarioMin, Double salarioMax){
+        return empleadoService.obtenerEmpleadosPorSalario(salarioMin, salarioMax);
     }
 
     @DeleteMapping("/empleados/{dni}")

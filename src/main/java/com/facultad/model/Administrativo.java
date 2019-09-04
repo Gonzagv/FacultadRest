@@ -4,7 +4,7 @@ public class Administrativo extends Empleado{
 
     private String sector;
 
-    public Administrativo(String nombre, String apellido, String dni, CargoEnum cargo, String anioDeIncorpora, int salario, String sector) {
+    public Administrativo(String nombre, String apellido, String dni, CargoEnum cargo, String anioDeIncorpora, Double salario, String sector) {
         super(nombre, apellido, dni, cargo, anioDeIncorpora, salario);
         this.sector = sector;
     }

@@ -6,22 +6,27 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 @Document(collection = "empleado")
 public class Empleado {
     @Id
     private String id;
+    @Pattern(regexp = "^[\\p{L}]+", message = "Nombre no debe contener numeros.")
     private String nombre;
+    @Pattern(regexp = "^[\\p{L}]+", message = "Nombre no debe contener numeros.")
     private String apellido;
     @NotNull
     @NotEmpty
+    @Pattern(regexp = "^(\\d{7}|\\d{8})$", message = "El dni tiene que tener 7 u 8 numeros")
     private String dni;
     private CargoEnum cargo;
     private String anioDeIncorpora;
-    private int salario;
+    private Double salario;
 
     public Empleado(){}
 
-    public Empleado(String nombre, String apellido, String dni, CargoEnum cargo, String anioDeIncorpora, int salario) {
+    public Empleado(String nombre, String apellido, String dni, CargoEnum cargo, String anioDeIncorpora, Double salario) {
         super();
         this.nombre = nombre;
         this.apellido = apellido;
@@ -31,11 +36,11 @@ public class Empleado {
         this.salario = salario;
     }
 
-    public int getSalario() {
+    public Double getSalario() {
         return salario;
     }
 
-    public void setSalario(int salario) {
+    public void setSalario(Double salario) {
         this.salario = salario;
     }
 

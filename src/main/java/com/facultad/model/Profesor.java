@@ -7,7 +7,7 @@ public class Profesor extends Empleado {
     public Profesor(){
     }
 
-    public Profesor(String nombre, String apellido, String dni, CargoEnum cargo, String anioDeIncorpora, int salario, String materia, String catedra) {
+    public Profesor(String nombre, String apellido, String dni, CargoEnum cargo, String anioDeIncorpora, Double salario, String materia, String catedra) {
         super(nombre, apellido, dni, cargo, anioDeIncorpora, salario);
         this.materia = materia;
         this.catedra = catedra;
