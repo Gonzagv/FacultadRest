@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/v1/api")
 public class EmpleadoController {
@@ -29,5 +31,10 @@ public class EmpleadoController {
     @DeleteMapping("/empleados/{dni}")
     public ResponseEntity borrarEmpleado(@PathVariable String dni){
         return empleadoService.borrarEmpleado(dni);
+    }
+
+    @GetMapping("/empleados/test")
+    public ResponseEntity obtenerEmpleadosPor(@RequestParam (required = false) Map<String, Object> allParams){
+        return empleadoService.buscarEmpleados(allParams);
     }
 }
