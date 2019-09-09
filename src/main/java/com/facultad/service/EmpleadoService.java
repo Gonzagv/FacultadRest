@@ -3,17 +3,12 @@ package com.facultad.service;
 import com.facultad.model.Empleado;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EmpleadoService {
@@ -45,25 +40,62 @@ public class EmpleadoService {
         if (salarioMin == null && salarioMax == null) {
             return new ResponseEntity(empleadosRepository.findAll(), HttpStatus.OK);
         } else {
+            if (salarioMin > 0 && salarioMax == null) {
+                return new ResponseEntity(empleadosRepository.findBySalario(salarioMin), HttpStatus.OK);
+            }
             return new ResponseEntity(empleadosRepository.findUsersBySalarioBetween(salarioMin, salarioMax), HttpStatus.OK);
         }
     }
 
-    public ResponseEntity buscarEmpleados(Map<String, Object> allParams) {
+    public ResponseEntity buscarEmpleados(Map<String, String> allParams) {
         if (allParams.isEmpty()) {
             return new ResponseEntity(empleadosRepository.findAll(), HttpStatus.OK);
         } else {
             List<Empleado> lista = new ArrayList<>();
+            List<Empleado> lista1 = new ArrayList<>();
             for (String key : allParams.keySet()) {
-                Object var1 = allParams.get(key);
-                lista.addAll(empleadosRepository.findByParam(key,var1));
-            }
-            Map<String, Empleado> ListaEmpleados= new HashMap<>();
-            for (Empleado empleado:lista) {
-                ListaEmpleados.put(empleado.getDni(), empleado);
-            }
-            return new ResponseEntity(ListaEmpleados, HttpStatus.OK);
+                if (lista.isEmpty()) {
+                    if (key.equals("salario")) {
+                        String s = allParams.get(key);
+                        lista.addAll(empleadosRepository.findByNumero(key, Double.valueOf(s)));
+                        if(lista.isEmpty()){
+                            return new ResponseEntity(lista, HttpStatus.OK);
+                        }
+                    } else {
+                        Object var1 = allParams.get(key);
+                        lista.addAll(empleadosRepository.findByParam(key, var1));
+                        if(lista.isEmpty()){
+                            return new ResponseEntity(lista, HttpStatus.OK);
+                        }
+                    }
+                } else {
+                    List<Empleado> lista2 = new ArrayList<>();
+                    if (key.equals("salario")) {
+                        String s = allParams.get(key);
+                        lista1.addAll(empleadosRepository.findByNumero(key, Double.valueOf(s)));
+                        if(lista1.isEmpty()){
+                            return new ResponseEntity(lista, HttpStatus.OK);
+                        }
 
+                    } else {
+                        Object var1 = allParams.get(key);
+                        lista1.addAll(empleadosRepository.findByParam(key, var1));
+                        if(lista1.isEmpty()){
+                            return new ResponseEntity(lista1, HttpStatus.OK);
+                        }
+                    }
+                    for (Empleado e : lista) {
+                        for (int i = 0; i < lista1.size(); i++) {
+                            if (lista1.get(i).getDni().contains(e.getDni())) {
+                                lista2.add(e);
+                            }
+                        }
+                    }
+                    lista = lista2;
+                }
+            }
+            Set<Empleado> lista3 = lista.stream().collect(Collectors.toSet());
+            return new ResponseEntity(lista3, HttpStatus.OK);
         }
     }
 }

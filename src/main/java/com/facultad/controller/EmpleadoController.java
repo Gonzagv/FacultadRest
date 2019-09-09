@@ -23,9 +23,9 @@ public class EmpleadoController {
         return empleadoService.mostrarEmpleadosPorNombre(nombre);
     }
 
-    @GetMapping("/empleados")
-    public ResponseEntity buscarPorSueldo(@RequestParam (required = false) Double salarioMin, Double salarioMax){
-        return empleadoService.obtenerEmpleadosPorSalario(salarioMin, salarioMax);
+    @GetMapping("/empleados/sueldo")
+    public ResponseEntity BuscarPorSalario(@RequestParam (required = false) Double salario, Double salarioMax){
+        return empleadoService.obtenerEmpleadosPorSalario(salario, salarioMax);
     }
 
     @DeleteMapping("/empleados/{dni}")
@@ -33,8 +33,9 @@ public class EmpleadoController {
         return empleadoService.borrarEmpleado(dni);
     }
 
-    @GetMapping("/empleados/test")
-    public ResponseEntity obtenerEmpleadosPor(@RequestParam (required = false) Map<String, Object> allParams){
+    @GetMapping("/empleados")
+    public ResponseEntity obtenerEmpleadosPor(@RequestParam (required = false) Map<String, String> allParams){
         return empleadoService.buscarEmpleados(allParams);
     }
+
 }

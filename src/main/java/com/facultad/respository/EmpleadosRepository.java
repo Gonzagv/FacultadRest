@@ -26,10 +26,16 @@ public interface EmpleadosRepository extends MongoRepository<Empleado, String> {
 
     Long deleteByDni(String dni);
 
+    @Query("{'salario' : { $eq : ?0} }")
+    List<Empleado> findBySalario(Double salario);
+
     @Query("{ 'salario' : { $gte: ?0, $lte: ?1 } }")
     List<Empleado> findUsersBySalarioBetween(Double salarioMin, Double salarioMax);
 
     @Query("{'?0' :{$eq :?1 }}")
     List<Empleado> findByParam(String key, Object value);
+
+    @Query("{'?0' :{$eq :?1 }}")
+    List<Empleado> findByNumero(String key, Double value);
 }
 
