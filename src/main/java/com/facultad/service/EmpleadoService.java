@@ -92,8 +92,10 @@ public class EmpleadoService {
                         }
                     }
                     lista = lista2;
+                    lista1.removeAll(lista1);
                 }
             }
+
             Set<Empleado> lista3 = lista.stream().collect(Collectors.toSet());
             return new ResponseEntity(lista3, HttpStatus.OK);
         }
