@@ -30,7 +30,7 @@ public class EmpresaCliente {
             ResponseEntity<String> body = restTemplate.getForEntity(empresaHost, String.class);
             return objectMapper.readValue(body.getBody(), new TypeReference<List<EmpleadoEmpresa>>() {});
         }catch (Exception ex){
-            ex.printStackTrace();
+
         }
         return null;
     }
@@ -41,7 +41,7 @@ public class EmpresaCliente {
             ResponseEntity<String> body = restTemplate.getForEntity(url, String.class);
             return objectMapper.readValue(body.getBody(), new TypeReference <EmpleadoEmpresa>() {});
         }catch (Exception ex){
-            ex.printStackTrace();
+
         }
         return null;
     }

@@ -56,7 +56,7 @@ public class PersonalDeServicioService {
             return new ResponseEntity(HttpStatus.CONFLICT);
         } else {
             EmpleadoEmpresa empleadoEmpresa = empleadoService.obtenerEmpleadoDeEmpresa(dni);
-            if(empleadoEmpresa.equals(null)){
+            if(empleadoEmpresa==null){
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             }else {
                 PersonalDeServicio personalDeServicio = new PersonalDeServicio();
