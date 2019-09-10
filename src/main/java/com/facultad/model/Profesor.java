@@ -1,5 +1,8 @@
 package com.facultad.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Profesor extends Empleado {
     private String materia;
     private String catedra;

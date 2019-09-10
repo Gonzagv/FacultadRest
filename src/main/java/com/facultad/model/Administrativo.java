@@ -1,5 +1,8 @@
 package com.facultad.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Administrativo extends Empleado{
 
     private String sector;
@@ -8,6 +11,8 @@ public class Administrativo extends Empleado{
         super(nombre, apellido, dni, cargo, anioDeIncorpora, salario);
         this.sector = sector;
     }
+
+    public Administrativo(){}
 
     public String getSector() {
         return sector;

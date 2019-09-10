@@ -2,16 +2,20 @@ package com.facultad.service;
 
 import com.facultad.model.Administrativo;
 import com.facultad.model.CargoEnum;
+import com.facultad.model.EmpleadoEmpresa;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import javax.validation.constraints.NotNull;
+
 
 @Service
 public class AdministrativoService{
+
+    @Autowired
+    private EmpleadoService empleadoService;
 
     @Autowired
     private EmpleadosRepository empleadosRepository;
@@ -50,5 +54,17 @@ public class AdministrativoService{
         }
     }
 
-
+    public ResponseEntity crearEmpleadoAdministrativoDeEmpresa(String dni){
+        if(empleadosRepository.existsByDni(dni)){
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }else {
+            EmpleadoEmpresa empleadoEmpresa = empleadoService.obtenerEmpleadoDeEmpresa(dni);
+            Administrativo administrativo = new Administrativo();
+            administrativo.setNombre(empleadoEmpresa.getNombre());
+            administrativo.setApellido(empleadoEmpresa.getApellido());
+            administrativo.setDni(empleadoEmpresa.getDni());
+            administrativo.setCargo(CargoEnum.ADMINISTRATIVO);
+            return new ResponseEntity(empleadosRepository.save(administrativo), HttpStatus.CREATED);
+        }
+    }
 }

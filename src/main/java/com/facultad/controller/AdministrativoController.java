@@ -29,4 +29,9 @@ public class AdministrativoController {
     public ResponseEntity modificarEmpleadoAdministrativo(@PathVariable String dni, @RequestBody Administrativo administrativo){
         return administrativoService.modificarAdministrativo(dni, administrativo);
     }
+
+    @PostMapping("/empresa/administrativos/{dni}")
+    public ResponseEntity crearEmpleadoAdministrativoDeEmpresa(@PathVariable String dni){
+        return administrativoService.crearEmpleadoAdministrativoDeEmpresa(dni);
+    }
 }

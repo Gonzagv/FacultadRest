@@ -1,9 +1,6 @@
 package com.facultad.service;
 
-import com.facultad.model.CargoEnum;
-import com.facultad.model.Empleado;
-import com.facultad.model.PersonalDeServicio;
-import com.facultad.model.Profesor;
+import com.facultad.model.*;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -19,6 +16,9 @@ public class ProfesorService {
 
     @Autowired
     private EmpleadosRepository empleadosRepository;
+
+    @Autowired
+    private EmpleadoService empleadoService;
 
     public ResponseEntity mostrarEmpleadosProfesores(CargoEnum cargo){
         return new ResponseEntity(empleadosRepository.findByCargo(cargo),HttpStatus.OK);
@@ -50,6 +50,20 @@ public class ProfesorService {
             return new ResponseEntity(empleadosRepository.save(profesor1), HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+    }
+
+    public ResponseEntity crearEmpleadoProfesorDeEmpresa(String dni){
+        if(empleadosRepository.existsByDni(dni)){
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }else{
+            EmpleadoEmpresa empleadoEmpresa = empleadoService.obtenerEmpleadoDeEmpresa(dni);
+            Profesor profesor = new Profesor();
+            profesor.setNombre(empleadoEmpresa.getNombre());
+            profesor.setApellido(empleadoEmpresa.getApellido());
+            profesor.setDni(empleadoEmpresa.getDni());
+            profesor.setCargo(CargoEnum.PROFESOR);
+            return new ResponseEntity(empleadosRepository.save(profesor), HttpStatus.OK);
         }
     }
 

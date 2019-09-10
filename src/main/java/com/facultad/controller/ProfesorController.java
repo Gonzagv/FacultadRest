@@ -29,4 +29,10 @@ public class ProfesorController {
     public ResponseEntity actualizarEmpleadoProfesor(@PathVariable String dni, @RequestBody Profesor profesor){
         return profesorService.actualizarEmpleadoProfesor(dni, profesor);
     }
-}
+
+    @PostMapping("/empresa/profesores/{dni}")
+    public ResponseEntity crearEmpleadoProfesorDeEmpresa(@PathVariable String dni){
+        return profesorService.crearEmpleadoProfesorDeEmpresa(dni);
+    }
+
+    }

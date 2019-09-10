@@ -30,4 +30,9 @@ public class PersonalDeServicioController {
     public ResponseEntity modificarEmpleadoPersonalDeServicio(@PathVariable String dni, @RequestBody PersonalDeServicio personalDeServicio){
         return personalDeServicioService.modificarEmpleadoServicio(dni, personalDeServicio);
     }
+
+    @PostMapping("/empresa/personaldeservicios/{dni}")
+    public ResponseEntity crearPersonalDeServicioDeEmpresa(@PathVariable String dni){
+        return personalDeServicioService.crearPersonalDeServicioDeEmpresa(dni);
+    }
 }

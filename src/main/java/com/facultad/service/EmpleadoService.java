@@ -1,8 +1,11 @@
 package com.facultad.service;
 
+import com.facultad.cliente.EmpresaCliente;
 import com.facultad.model.Empleado;
+import com.facultad.model.EmpleadoEmpresa;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class EmpleadoService {
+
+    @Autowired
+    EmpresaCliente empresaCliente;
 
     @Autowired
     private EmpleadosRepository empleadosRepository;
@@ -99,5 +105,13 @@ public class EmpleadoService {
             Set<Empleado> lista3 = lista.stream().collect(Collectors.toSet());
             return new ResponseEntity(lista3, HttpStatus.OK);
         }
+    }
+
+    public List<EmpleadoEmpresa> obtenerEmpleadosDeEmpresa(){
+        return empresaCliente.obtenerEmpleadosDeEmpresa();
+    }
+
+    public EmpleadoEmpresa obtenerEmpleadoDeEmpresa(String dni){
+        return empresaCliente.obtenerEmpleadoDeEmpresa(dni);
     }
 }
