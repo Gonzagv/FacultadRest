@@ -107,8 +107,12 @@ public class EmpleadoService {
         }
     }
 
-    public List<EmpleadoEmpresa> obtenerEmpleadosDeEmpresa(){
+    public ResponseEntity obtenerEmpleadosDeEmpresa(){
         return empresaCliente.obtenerEmpleadosDeEmpresa();
+    }
+
+    public ResponseEntity getEmpleadoDeEmpresa(String dni){
+        return empresaCliente.getEmpleadoDeEmpresa(dni);
     }
 
     public EmpleadoEmpresa obtenerEmpleadoDeEmpresa(String dni){

@@ -39,5 +39,4 @@ public class EmpleadoController {
     public ResponseEntity obtenerEmpleadosPor(@RequestParam (required = false) Map<String, String> allParams){
         return empleadoService.buscarEmpleados(allParams);
     }
-
 }

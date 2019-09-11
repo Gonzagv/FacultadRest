@@ -3,6 +3,7 @@ package com.facultad.controller;
 import com.facultad.model.EmpleadoEmpresa;
 import com.facultad.service.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +19,12 @@ public class EmpresaController {
     EmpleadoService empleadoService;
 
     @GetMapping("/empresa")
-    public List<EmpleadoEmpresa> obtenerEmpleadosDeEmpresa(){
+    public ResponseEntity obtenerEmpleadosDeEmpresa(){
         return empleadoService.obtenerEmpleadosDeEmpresa();
     }
 
     @GetMapping("/empresa/{dni}")
-    public EmpleadoEmpresa obtenerEmpleadoDeEmpresa(@PathVariable String dni){
-        return empleadoService.obtenerEmpleadoDeEmpresa(dni);
+    public ResponseEntity obtenerEmpleadoDeEmpresa(@PathVariable String dni){
+        return empleadoService.getEmpleadoDeEmpresa(dni);
     }
-
 }
