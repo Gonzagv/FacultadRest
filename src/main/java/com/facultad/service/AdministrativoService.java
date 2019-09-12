@@ -1,14 +1,20 @@
 package com.facultad.service;
 
+import com.facultad.exceptions.CargoIncorrectoException;
+import com.facultad.exceptions.EmpleadoExistenteException;
+import com.facultad.exceptions.EmpleadoNoExisteException;
+import com.facultad.exceptions.EmpleadoVacioException;
 import com.facultad.model.Administrativo;
 import com.facultad.model.CargoEnum;
-import com.facultad.model.EmpleadoEmpresa;
+import com.facultad.model.Empleado;
+import com.facultad.model.EmpleadoEmpresa.EmpleadoEmpresa;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @Service
@@ -20,25 +26,31 @@ public class AdministrativoService{
     @Autowired
     private EmpleadosRepository empleadosRepository;
 
-    public ResponseEntity mostrarEmpleadosAdministrativos(CargoEnum cargo){
-        return new ResponseEntity(empleadosRepository.findByCargo(cargo), HttpStatus.OK);
+    public List<Empleado> mostrarEmpleadosAdministrativos(CargoEnum cargo){
+        return empleadosRepository.findByCargo(cargo);
     }
 
-    public ResponseEntity agregarEmpleadoAdministrativo(Administrativo administrativo){
-        if(empleadosRepository.existsByDni(administrativo.getId())){
-            return new ResponseEntity(HttpStatus.CONFLICT);
-        }else{
-            if(administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
-                return new ResponseEntity(empleadosRepository.save(administrativo), HttpStatus.CREATED);
-            }else{
-                return new ResponseEntity(HttpStatus.FORBIDDEN);
+    public Empleado agregarEmpleadoAdministrativo (Administrativo administrativo) throws Exception {
+        if (administrativo == null) {
+            throw new EmpleadoVacioException("Los Atributos para crear empleado son insuficientes o erroneos.");
+        } else {
+            if (empleadosRepository.existsByDni(administrativo.getDni())) {
+                throw new EmpleadoExistenteException("Ya hay un empleado creado con ese documento.");
+            } else {
+                if (administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
+                    empleadosRepository.save(administrativo);
+                    return administrativo;
+                } else {
+                    throw new CargoIncorrectoException("El cargo debe ser administrativo.");
+                }
             }
         }
+
     }
 
-    public ResponseEntity modificarAdministrativo(String dni, @NotNull Administrativo administrativo) {
+    public Administrativo modificarAdministrativo(String dni, @NotNull Administrativo administrativo) throws Exception {
         if(!empleadosRepository.existsByDni(dni) && administrativo.getDni().equals(dni)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new EmpleadoNoExisteException("El empleado que desea modificar no existe, verifique los datos");
         }else {
             if (empleadosRepository.findByDni(dni).getCargo().equals(CargoEnum.ADMINISTRATIVO) && administrativo.getCargo().equals(CargoEnum.ADMINISTRATIVO)) {
                 Administrativo administrativo1 = (Administrativo) empleadosRepository.findByDni(dni);
@@ -47,16 +59,16 @@ public class AdministrativoService{
                 administrativo1.setSector(administrativo.getSector());
                 administrativo1.setAnioDeIncorpora(administrativo.getAnioDeIncorpora());
                 administrativo1.setSalario(administrativo.getSalario());
-                return new ResponseEntity(empleadosRepository.save(administrativo1), HttpStatus.OK);
+                return empleadosRepository.save(administrativo1);
             } else {
-                return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+                throw new CargoIncorrectoException("El cargo del empleado guardado no coincide con la informacion que desea actualizar.");
             }
         }
     }
 
-    public ResponseEntity crearEmpleadoAdministrativoDeEmpresa(String dni){
+    public Empleado crearEmpleadoAdministrativoDeEmpresa(String dni) throws Exception{
         if(empleadosRepository.existsByDni(dni)){
-            return new ResponseEntity(HttpStatus.CONFLICT);
+            throw new EmpleadoExistenteException("Ya existe ese empleado.");
         }else {
             EmpleadoEmpresa empleadoEmpresa = empleadoService.obtenerEmpleadoDeEmpresa(dni);
             Administrativo administrativo = new Administrativo();
@@ -64,7 +76,8 @@ public class AdministrativoService{
             administrativo.setApellido(empleadoEmpresa.getApellido());
             administrativo.setDni(empleadoEmpresa.getDni());
             administrativo.setCargo(CargoEnum.ADMINISTRATIVO);
-            return new ResponseEntity(empleadosRepository.save(administrativo), HttpStatus.CREATED);
+            administrativo.setSalario(empleadoEmpresa.getSueldo());
+            return empleadosRepository.save(administrativo);
         }
     }
 }

@@ -1,14 +1,18 @@
 package com.facultad.service;
 
+import com.facultad.exceptions.CargoIncorrectoException;
+import com.facultad.exceptions.EmpleadoExistenteException;
+import com.facultad.exceptions.EmpleadoNoExisteException;
 import com.facultad.model.*;
+import com.facultad.model.EmpleadoEmpresa.EmpleadoEmpresa;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @Service
@@ -20,25 +24,25 @@ public class ProfesorService {
     @Autowired
     private EmpleadoService empleadoService;
 
-    public ResponseEntity mostrarEmpleadosProfesores(CargoEnum cargo){
-        return new ResponseEntity(empleadosRepository.findByCargo(cargo),HttpStatus.OK);
+    public List<Empleado> mostrarEmpleadosProfesores(CargoEnum cargo){
+        return empleadosRepository.findByCargo(cargo);
     }
 
-    public ResponseEntity agregarEmpleadoProfesor(Profesor profesor){
+    public Empleado agregarEmpleadoProfesor(Profesor profesor)throws Exception{
         if(empleadosRepository.existsByDni(profesor.getDni())){
-            return new ResponseEntity(HttpStatus.CONFLICT);
+            throw new EmpleadoExistenteException("El empleado ya existe.");
         }else{
             if(profesor.getCargo().equals(CargoEnum.PROFESOR)) {
-                return new ResponseEntity(empleadosRepository.save(profesor), HttpStatus.CREATED);
+                return empleadosRepository.save(profesor);
             }else{
-                return new ResponseEntity(HttpStatus.FORBIDDEN);
+                throw new CargoIncorrectoException("El cargo ingresado no coincide con el empleado que desea crear");
             }
         }
     }
 
-    public ResponseEntity actualizarEmpleadoProfesor(String dni, @NotNull Profesor profesor) {
+    public Empleado actualizarEmpleadoProfesor(String dni, @NotNull Profesor profesor) throws Exception {
         if (!empleadosRepository.existsByDni(profesor.getDni()) && profesor.getDni().equals(dni)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new EmpleadoNoExisteException("Los datos ingresados no coinciden con ningun empleado.");
         } else if (profesor.getCargo().equals(CargoEnum.PROFESOR) && empleadosRepository.findByDni(dni).getCargo().equals(CargoEnum.PROFESOR) ) {
             Profesor profesor1 = (Profesor) empleadosRepository.findByDni(dni);
             profesor1.setNombre(profesor.getNombre());
@@ -47,15 +51,15 @@ public class ProfesorService {
             profesor1.setMateria(profesor.getMateria());
             profesor1.setAnioDeIncorpora(profesor.getAnioDeIncorpora());
             profesor1.setSalario(profesor.getSalario());
-            return new ResponseEntity(empleadosRepository.save(profesor1), HttpStatus.OK);
+            return empleadosRepository.save(profesor1);
         } else {
-            return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+            throw new CargoIncorrectoException("El cargo ingresado no coincide con el empleado que desea crear");
         }
     }
 
-    public ResponseEntity crearEmpleadoProfesorDeEmpresa(String dni){
+    public Empleado crearEmpleadoProfesorDeEmpresa(String dni) throws Exception{
         if(empleadosRepository.existsByDni(dni)){
-            return new ResponseEntity(HttpStatus.CONFLICT);
+            throw new EmpleadoExistenteException("El empelado ya existe.");
         }else{
             EmpleadoEmpresa empleadoEmpresa = empleadoService.obtenerEmpleadoDeEmpresa(dni);
             Profesor profesor = new Profesor();
@@ -63,7 +67,8 @@ public class ProfesorService {
             profesor.setApellido(empleadoEmpresa.getApellido());
             profesor.setDni(empleadoEmpresa.getDni());
             profesor.setCargo(CargoEnum.PROFESOR);
-            return new ResponseEntity(empleadosRepository.save(profesor), HttpStatus.OK);
+            profesor.setSalario(empleadoEmpresa.getSueldo());
+            return empleadosRepository.save(profesor);
         }
     }
 

@@ -1,11 +1,11 @@
 package com.facultad.service;
 
 import com.facultad.cliente.EmpresaCliente;
+import com.facultad.exceptions.EmpleadoNoExisteException;
 import com.facultad.model.Empleado;
-import com.facultad.model.EmpleadoEmpresa;
+import com.facultad.model.EmpleadoEmpresa.EmpleadoEmpresa;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,40 +22,40 @@ public class EmpleadoService {
     @Autowired
     private EmpleadosRepository empleadosRepository;
 
-    public ResponseEntity obtenerEmpleado(String dni) {
+    public Empleado obtenerEmpleado(String dni) throws Exception{
         if (empleadosRepository.existsByDni(dni)) {
-            return new ResponseEntity(empleadosRepository.findByDni(dni), HttpStatus.OK);
+            return empleadosRepository.findByDni(dni);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new EmpleadoNoExisteException("Empleado no encontrado.");
         }
     }
 
-    public ResponseEntity borrarEmpleado(String dni) {
+    public Long borrarEmpleado(String dni) throws Exception{
         if (empleadosRepository.existsByDni(dni)) {
-            return new ResponseEntity(empleadosRepository.deleteByDni(dni), HttpStatus.OK);
+            return empleadosRepository.deleteByDni(dni);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new EmpleadoNoExisteException("Empleado no existe.");
         }
     }
 
-    public ResponseEntity mostrarEmpleadosPorNombre(String nombre) {
-        return new ResponseEntity(empleadosRepository.findByNombre(nombre), HttpStatus.OK);
+    public List<Empleado> mostrarEmpleadosPorNombre(String nombre) {
+        return empleadosRepository.findByNombre(nombre);
     }
 
-    public ResponseEntity obtenerEmpleadosPorSalario(Double salarioMin, Double salarioMax) {
+    public List<Empleado> obtenerEmpleadosPorSalario(Double salarioMin, Double salarioMax) {
         if (salarioMin == null && salarioMax == null) {
-            return new ResponseEntity(empleadosRepository.findAll(), HttpStatus.OK);
+            return empleadosRepository.findAll();
         } else {
             if (salarioMin > 0 && salarioMax == null) {
-                return new ResponseEntity(empleadosRepository.findBySalario(salarioMin), HttpStatus.OK);
+                return empleadosRepository.findBySalario(salarioMin);
             }
-            return new ResponseEntity(empleadosRepository.findUsersBySalarioBetween(salarioMin, salarioMax), HttpStatus.OK);
+            return empleadosRepository.findUsersBySalarioBetween(salarioMin, salarioMax);
         }
     }
 
-    public ResponseEntity buscarEmpleados(Map<String, String> allParams) {
+    public List<Empleado> buscarEmpleados(Map<String, String> allParams) {
         if (allParams.isEmpty()) {
-            return new ResponseEntity(empleadosRepository.findAll(), HttpStatus.OK);
+            return empleadosRepository.findAll();
         } else {
             List<Empleado> lista = new ArrayList<>();
             List<Empleado> lista1 = new ArrayList<>();
@@ -65,13 +65,13 @@ public class EmpleadoService {
                         String s = allParams.get(key);
                         lista.addAll(empleadosRepository.findByNumero(key, Double.valueOf(s)));
                         if(lista.isEmpty()){
-                            return new ResponseEntity(lista, HttpStatus.OK);
+                            return lista;
                         }
                     } else {
                         Object var1 = allParams.get(key);
                         lista.addAll(empleadosRepository.findByParam(key, var1));
                         if(lista.isEmpty()){
-                            return new ResponseEntity(lista, HttpStatus.OK);
+                            return lista;
                         }
                     }
                 } else {
@@ -80,14 +80,14 @@ public class EmpleadoService {
                         String s = allParams.get(key);
                         lista1.addAll(empleadosRepository.findByNumero(key, Double.valueOf(s)));
                         if(lista1.isEmpty()){
-                            return new ResponseEntity(lista, HttpStatus.OK);
+                            return lista;
                         }
 
                     } else {
                         Object var1 = allParams.get(key);
                         lista1.addAll(empleadosRepository.findByParam(key, var1));
                         if(lista1.isEmpty()){
-                            return new ResponseEntity(lista1, HttpStatus.OK);
+                            return lista1;
                         }
                     }
                     for (Empleado e : lista) {
@@ -103,19 +103,20 @@ public class EmpleadoService {
             }
 
             Set<Empleado> lista3 = lista.stream().collect(Collectors.toSet());
-            return new ResponseEntity(lista3, HttpStatus.OK);
+            List<Empleado> lista4 = new ArrayList<>(lista3);
+            return lista4;
         }
     }
 
-    public ResponseEntity obtenerEmpleadosDeEmpresa(){
+    public List<EmpleadoEmpresa> obtenerEmpleadosDeEmpresa() throws Exception{
         return empresaCliente.obtenerEmpleadosDeEmpresa();
     }
 
-    public ResponseEntity getEmpleadoDeEmpresa(String dni){
+    public EmpleadoEmpresa getEmpleadoDeEmpresa(String dni) throws Exception{
         return empresaCliente.getEmpleadoDeEmpresa(dni);
     }
 
-    public EmpleadoEmpresa obtenerEmpleadoDeEmpresa(String dni){
+    public EmpleadoEmpresa obtenerEmpleadoDeEmpresa(String dni) throws Exception{
         return empresaCliente.obtenerEmpleadoDeEmpresa(dni);
     }
 }

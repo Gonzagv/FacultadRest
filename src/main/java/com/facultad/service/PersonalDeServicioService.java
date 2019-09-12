@@ -1,7 +1,12 @@
 package com.facultad.service;
 
+import com.facultad.exceptions.CargoIncorrectoException;
+import com.facultad.exceptions.EmpleadoExistenteException;
+import com.facultad.exceptions.EmpleadoNoExisteException;
+import com.facultad.exceptions.EmpleadoVacioException;
 import com.facultad.model.CargoEnum;
-import com.facultad.model.EmpleadoEmpresa;
+import com.facultad.model.Empleado;
+import com.facultad.model.EmpleadoEmpresa.EmpleadoEmpresa;
 import com.facultad.model.PersonalDeServicio;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Service
 public class PersonalDeServicioService {
@@ -19,25 +25,25 @@ public class PersonalDeServicioService {
     @Autowired
     private EmpleadoService empleadoService;
 
-    public ResponseEntity listaPersonalServicio(CargoEnum cargo) {
-        return new ResponseEntity(empleadosRepository.findByCargo(cargo), HttpStatus.OK);
+    public List<Empleado> listaPersonalServicio(CargoEnum cargo) {
+        return empleadosRepository.findByCargo(cargo);
     }
 
-    public ResponseEntity agregarPersonalDeServicio(PersonalDeServicio personalDeServicio) {
+    public Empleado agregarPersonalDeServicio(PersonalDeServicio personalDeServicio) throws Exception {
         if (empleadosRepository.existsByDni(personalDeServicio.getDni())) {
-            return new ResponseEntity(HttpStatus.CONFLICT);
+            throw new EmpleadoExistenteException("El empleado ya existe.");
         } else {
             if (personalDeServicio.getCargo().equals(CargoEnum.PERSONAL_DE_SERVICIO)) {
-                return new ResponseEntity(empleadosRepository.save(personalDeServicio), HttpStatus.CREATED);
+                return empleadosRepository.save(personalDeServicio);
             } else {
-                return new ResponseEntity(HttpStatus.FORBIDDEN);
+                throw new CargoIncorrectoException("El cargo es incorrecto, verifique los datos ingresados.");
             }
         }
     }
 
-    public ResponseEntity modificarEmpleadoServicio(String dni, @NotNull PersonalDeServicio personalDeServicio) {
+    public Empleado modificarEmpleadoServicio(String dni, @NotNull PersonalDeServicio personalDeServicio) throws Exception {
         if (!empleadosRepository.existsByDni(personalDeServicio.getDni()) && personalDeServicio.getDni().equals(dni)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new EmpleadoNoExisteException("Los datos ingresados no coinciden con nungun empleado.");
         } else if (empleadosRepository.findByDni(dni).getCargo().equals(CargoEnum.PERSONAL_DE_SERVICIO)
                 && personalDeServicio.getCargo().equals(CargoEnum.PERSONAL_DE_SERVICIO)) {
             PersonalDeServicio personalDeServicio1 = (PersonalDeServicio) empleadosRepository.findByDni(dni);
@@ -46,25 +52,27 @@ public class PersonalDeServicioService {
             personalDeServicio1.setSeccion(personalDeServicio.getSeccion());
             personalDeServicio1.setAnioDeIncorpora(personalDeServicio.getAnioDeIncorpora());
             personalDeServicio1.setSalario(personalDeServicio.getSalario());
-            return new ResponseEntity(empleadosRepository.save(personalDeServicio1), HttpStatus.OK);
+            return empleadosRepository.save(personalDeServicio1);
         }
-        return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+        throw new CargoIncorrectoException("El cargo ingresado es incorrecto.");
     }
 
-    public ResponseEntity crearPersonalDeServicioDeEmpresa(String dni) {
+    public Empleado crearPersonalDeServicioDeEmpresa(String dni) throws Exception {
         if (empleadosRepository.existsByDni(dni)) {
-            return new ResponseEntity(HttpStatus.CONFLICT);
+            throw new EmpleadoExistenteException("Ya existe un empleado con esas caracteristicas.");
         } else {
             EmpleadoEmpresa empleadoEmpresa = empleadoService.obtenerEmpleadoDeEmpresa(dni);
             if(empleadoEmpresa==null){
-                return new ResponseEntity(HttpStatus.NOT_FOUND);
+                throw new EmpleadoVacioException("Empleado con atributos insuficientes.");
             }else {
                 PersonalDeServicio personalDeServicio = new PersonalDeServicio();
                 personalDeServicio.setNombre(empleadoEmpresa.getNombre());
                 personalDeServicio.setApellido(empleadoEmpresa.getApellido());
                 personalDeServicio.setCargo(CargoEnum.PERSONAL_DE_SERVICIO);
                 personalDeServicio.setDni(empleadoEmpresa.getDni());
-                return new ResponseEntity(empleadosRepository.save(personalDeServicio), HttpStatus.CREATED);
+                personalDeServicio.setSalario(empleadoEmpresa.getSueldo());
+                empleadosRepository.save(personalDeServicio);
+                return personalDeServicio;
             }
         }
     }
