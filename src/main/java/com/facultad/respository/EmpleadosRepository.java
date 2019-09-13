@@ -13,6 +13,7 @@ import java.util.Map;
 
 @Component
 public interface EmpleadosRepository extends MongoRepository<Empleado, String> {
+
     boolean existsByNombre(String nombre);
 
     @Query("{ 'nombre' : { $eq : ?0 } }")

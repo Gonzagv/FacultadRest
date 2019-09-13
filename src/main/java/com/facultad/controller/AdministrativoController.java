@@ -18,13 +18,18 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/v1/api")
 public class AdministrativoController {
+
     @Autowired
     AdministrativoService administrativoService;
 
+    //Trae la lista de los empleados administrativos
+
     @GetMapping("/empleados/administrativos")
-    public ResponseEntity obtenerEmpleadosAdministrativos(){
+    public ResponseEntity obtenerEmpleadosAdministrativos() {
         return new ResponseEntity(administrativoService.mostrarEmpleadosAdministrativos(CargoEnum.ADMINISTRATIVO), HttpStatus.OK);
     }
+
+    //Crea empleados administrativos.
 
     @PostMapping("/empleados/administrativos")
     public ResponseEntity agregarEmpleadoAdministrativo(@Valid @RequestBody Administrativo administrativo) {
@@ -41,27 +46,31 @@ public class AdministrativoController {
         }
     }
 
+    //Actualiza empleados administrativos.
+
     @PutMapping("/empleados/administrativos/{dni}")
-    public ResponseEntity modificarEmpleadoAdministrativo(@PathVariable String dni, @RequestBody Administrativo administrativo){
+    public ResponseEntity modificarEmpleadoAdministrativo(@PathVariable String dni, @RequestBody Administrativo administrativo) {
         try {
             return new ResponseEntity(administrativoService.modificarAdministrativo(dni, administrativo), HttpStatus.OK);
-        }catch(CargoIncorrectoException e){
+        } catch (CargoIncorrectoException e) {
             return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (EmpleadoNoExisteException e){
+        } catch (EmpleadoNoExisteException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
     }
 
+    //Crea empleados administrativos.
+
     @PostMapping("/empresa/administrativos/{dni}")
-    public ResponseEntity crearEmpleadoAdministrativoDeEmpresa(@PathVariable String dni){
+    public ResponseEntity crearEmpleadoAdministrativoDeEmpresa(@PathVariable String dni) {
         try {
             return new ResponseEntity(administrativoService.crearEmpleadoAdministrativoDeEmpresa(dni), HttpStatus.CREATED);
-        }catch (EmpleadoExistenteException e){
+        } catch (EmpleadoExistenteException e) {
             return new ResponseEntity(HttpStatus.CONFLICT);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }

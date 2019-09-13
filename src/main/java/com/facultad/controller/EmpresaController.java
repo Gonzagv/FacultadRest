@@ -16,28 +16,42 @@ public class EmpresaController {
     @Autowired
     EmpleadoService empleadoService;
 
-    @GetMapping("/empresa")
-    public ResponseEntity obtenerEmpleadosDeEmpresa(){
+    //Busca todos los empleados de Empresa.
+
+    /*@GetMapping("/empresa")
+    public ResponseEntity obtenerEmpleadosDeEmpresa() {
         try {
             return new ResponseEntity(empleadoService.obtenerEmpleadosDeEmpresa(), HttpStatus.OK);
-        }catch (ResourceAccessException e){
+        } catch (ResourceAccessException e) {
             return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+    }*/
 
-    }
+    //Busca empleado de Empresa a partir de su Dni.
 
     @GetMapping("/empresa/{dni}")
-    public ResponseEntity obtenerEmpleadoDeEmpresa(@PathVariable String dni){
+    public ResponseEntity obtenerEmpleadoDeEmpresa(@PathVariable String dni) {
         try {
             return new ResponseEntity(empleadoService.getEmpleadoDeEmpresa(dni), HttpStatus.OK);
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (EmpleadoNoExisteException e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/empresa")
+    public ResponseEntity obtenerEmpleadosDeEmpresaPor(@RequestParam(required = false) Map<String, String> allParams) {
+        try {
+            return new ResponseEntity(empleadoService.buscarEmpleadosDeEmpresaPorParametros(allParams), HttpStatus.OK);
         }catch (ResourceAccessException e){
             return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
-        }catch (EmpleadoNoExisteException e){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -21,46 +21,54 @@ public class PersonalDeServicioController {
     @Autowired
     PersonalDeServicioService personalDeServicioService;
 
+    //Busca la lista de empleados que pertenecen al personal de servicio.
+
     @GetMapping("/empleados/personaldeservicios")
-    public ResponseEntity obtenerEmpleadosPersonalServicio(){
+    public ResponseEntity obtenerEmpleadosPersonalServicio() {
         return new ResponseEntity(personalDeServicioService.listaPersonalServicio(CargoEnum.PERSONAL_DE_SERVICIO), HttpStatus.OK);
     }
 
+    //Crea empleados del area de personal de servicio.
+
     @PostMapping("/empleados/personaldeservicios")
-    public ResponseEntity agregarEmpleadoPersonalDeServicio(@Valid @RequestBody PersonalDeServicio personalDeServicio){
+    public ResponseEntity agregarEmpleadoPersonalDeServicio(@Valid @RequestBody PersonalDeServicio personalDeServicio) {
         try {
             return new ResponseEntity(personalDeServicioService.agregarPersonalDeServicio(personalDeServicio), HttpStatus.OK);
-        }catch (EmpleadoExistenteException e){
+        } catch (EmpleadoExistenteException e) {
             return new ResponseEntity(HttpStatus.CONFLICT);
-        }catch (CargoIncorrectoException e){
+        } catch (CargoIncorrectoException e) {
             return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
+
+    //Actualiza un empleado del area de personal de servicio a partir de su Dni.
 
     @PutMapping("/empleados/personaldeservicios/{dni}")
-    public ResponseEntity modificarEmpleadoPersonalDeServicio(@PathVariable String dni, @RequestBody PersonalDeServicio personalDeServicio){
+    public ResponseEntity modificarEmpleadoPersonalDeServicio(@PathVariable String dni, @RequestBody PersonalDeServicio personalDeServicio) {
         try {
             return new ResponseEntity(personalDeServicioService.modificarEmpleadoServicio(dni, personalDeServicio), HttpStatus.OK);
-        }catch (CargoIncorrectoException e){
+        } catch (CargoIncorrectoException e) {
             return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (EmpleadoNoExisteException e){
+        } catch (EmpleadoNoExisteException e) {
             return new ResponseEntity(HttpStatus.CONFLICT);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
+    //Crea un empleado previamente en Empresa y lo asigna al area de personal de servicio.
+
     @PostMapping("/empresa/personaldeservicios/{dni}")
-    public ResponseEntity crearPersonalDeServicioDeEmpresa(@PathVariable String dni){
+    public ResponseEntity crearPersonalDeServicioDeEmpresa(@PathVariable String dni) {
         try {
-            return new ResponseEntity(personalDeServicioService.crearPersonalDeServicioDeEmpresa(dni),HttpStatus.OK);
-        }catch(EmpleadoExistenteException e){
+            return new ResponseEntity(personalDeServicioService.crearPersonalDeServicioDeEmpresa(dni), HttpStatus.OK);
+        } catch (EmpleadoExistenteException e) {
             return new ResponseEntity(HttpStatus.CONFLICT);
-        }catch(EmpleadoVacioException e){
+        } catch (EmpleadoVacioException e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }

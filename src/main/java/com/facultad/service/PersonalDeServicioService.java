@@ -6,12 +6,10 @@ import com.facultad.exceptions.EmpleadoNoExisteException;
 import com.facultad.exceptions.EmpleadoVacioException;
 import com.facultad.model.CargoEnum;
 import com.facultad.model.Empleado;
-import com.facultad.model.EmpleadoEmpresa.EmpleadoEmpresa;
+import com.facultad.modelEmpresa.EmpleadoEmpresa;
 import com.facultad.model.PersonalDeServicio;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -25,9 +23,13 @@ public class PersonalDeServicioService {
     @Autowired
     private EmpleadoService empleadoService;
 
+    //Devuelve una lista de todos los empleados del personal de servicio.
+
     public List<Empleado> listaPersonalServicio(CargoEnum cargo) {
         return empleadosRepository.findByCargo(cargo);
     }
+
+    //Crea y agrega un empleado al personal de servicio.
 
     public Empleado agregarPersonalDeServicio(PersonalDeServicio personalDeServicio) throws Exception {
         if (empleadosRepository.existsByDni(personalDeServicio.getDni())) {
@@ -40,6 +42,8 @@ public class PersonalDeServicioService {
             }
         }
     }
+
+    //Modifica o actualiza un empleado del personal de servicio.
 
     public Empleado modificarEmpleadoServicio(String dni, @NotNull PersonalDeServicio personalDeServicio) throws Exception {
         if (!empleadosRepository.existsByDni(personalDeServicio.getDni()) && personalDeServicio.getDni().equals(dni)) {
@@ -56,6 +60,8 @@ public class PersonalDeServicioService {
         }
         throw new CargoIncorrectoException("El cargo ingresado es incorrecto.");
     }
+
+    //Crea un empleado al personal de servicio que proviene de la empresa.
 
     public Empleado crearPersonalDeServicioDeEmpresa(String dni) throws Exception {
         if (empleadosRepository.existsByDni(dni)) {

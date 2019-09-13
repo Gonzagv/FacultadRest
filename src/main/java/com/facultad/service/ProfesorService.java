@@ -4,11 +4,9 @@ import com.facultad.exceptions.CargoIncorrectoException;
 import com.facultad.exceptions.EmpleadoExistenteException;
 import com.facultad.exceptions.EmpleadoNoExisteException;
 import com.facultad.model.*;
-import com.facultad.model.EmpleadoEmpresa.EmpleadoEmpresa;
+import com.facultad.modelEmpresa.EmpleadoEmpresa;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -24,9 +22,13 @@ public class ProfesorService {
     @Autowired
     private EmpleadoService empleadoService;
 
+    //Devuelve todos los empleados al area de profesores.
+
     public List<Empleado> mostrarEmpleadosProfesores(CargoEnum cargo){
         return empleadosRepository.findByCargo(cargo);
     }
+
+    //Crea y agrega un empleado al area de profesores.
 
     public Empleado agregarEmpleadoProfesor(Profesor profesor)throws Exception{
         if(empleadosRepository.existsByDni(profesor.getDni())){
@@ -39,6 +41,8 @@ public class ProfesorService {
             }
         }
     }
+
+    //Modifica o actualiza un empleado del area de profesores.
 
     public Empleado actualizarEmpleadoProfesor(String dni, @NotNull Profesor profesor) throws Exception {
         if (!empleadosRepository.existsByDni(profesor.getDni()) && profesor.getDni().equals(dni)) {
@@ -56,6 +60,8 @@ public class ProfesorService {
             throw new CargoIncorrectoException("El cargo ingresado no coincide con el empleado que desea crear");
         }
     }
+
+    //Crea y agrega un empleado que proviene de la empresa al area de profesores.
 
     public Empleado crearEmpleadoProfesorDeEmpresa(String dni) throws Exception{
         if(empleadosRepository.existsByDni(dni)){

@@ -1,6 +1,5 @@
-package com.facultad.model.EmpleadoEmpresa;
+package com.facultad.modelEmpresa;
 
-import com.facultad.model.CargoEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

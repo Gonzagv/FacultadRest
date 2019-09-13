@@ -7,11 +7,9 @@ import com.facultad.exceptions.EmpleadoVacioException;
 import com.facultad.model.Administrativo;
 import com.facultad.model.CargoEnum;
 import com.facultad.model.Empleado;
-import com.facultad.model.EmpleadoEmpresa.EmpleadoEmpresa;
+import com.facultad.modelEmpresa.EmpleadoEmpresa;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -26,9 +24,13 @@ public class AdministrativoService{
     @Autowired
     private EmpleadosRepository empleadosRepository;
 
+    //Busca la lista de empleados administrativos.
+
     public List<Empleado> mostrarEmpleadosAdministrativos(CargoEnum cargo){
         return empleadosRepository.findByCargo(cargo);
     }
+
+    //Crea empleado administrativo.
 
     public Empleado agregarEmpleadoAdministrativo (Administrativo administrativo) throws Exception {
         if (administrativo == null) {
@@ -48,6 +50,8 @@ public class AdministrativoService{
 
     }
 
+    //Modifica empleado administrativo existente.
+
     public Administrativo modificarAdministrativo(String dni, @NotNull Administrativo administrativo) throws Exception {
         if(!empleadosRepository.existsByDni(dni) && administrativo.getDni().equals(dni)) {
             throw new EmpleadoNoExisteException("El empleado que desea modificar no existe, verifique los datos");
@@ -65,6 +69,8 @@ public class AdministrativoService{
             }
         }
     }
+
+    //Crea empleado administrativo que proviene de la empresa.
 
     public Empleado crearEmpleadoAdministrativoDeEmpresa(String dni) throws Exception{
         if(empleadosRepository.existsByDni(dni)){
