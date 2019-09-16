@@ -6,7 +6,6 @@ import com.facultad.exceptions.EmpleadoNoExisteException;
 import com.facultad.exceptions.EmpleadoVacioException;
 import com.facultad.model.Administrativo;
 import com.facultad.model.CargoEnum;
-import com.facultad.model.Empleado;
 import com.facultad.service.AdministrativoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

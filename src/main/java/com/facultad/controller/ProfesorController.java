@@ -6,7 +6,6 @@ import com.facultad.exceptions.EmpleadoNoExisteException;
 import com.facultad.model.CargoEnum;
 import com.facultad.model.Profesor;
 import com.facultad.service.ProfesorService;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

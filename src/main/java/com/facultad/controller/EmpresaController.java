@@ -16,19 +16,6 @@ public class EmpresaController {
     @Autowired
     EmpleadoService empleadoService;
 
-    //Busca todos los empleados de Empresa.
-
-    /*@GetMapping("/empresa")
-    public ResponseEntity obtenerEmpleadosDeEmpresa() {
-        try {
-            return new ResponseEntity(empleadoService.obtenerEmpleadosDeEmpresa(), HttpStatus.OK);
-        } catch (ResourceAccessException e) {
-            return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
-        } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-    }*/
-
     //Busca empleado de Empresa a partir de su Dni.
 
     @GetMapping("/empresa/{dni}")
@@ -43,6 +30,8 @@ public class EmpresaController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
+
+    //Busca lista de empleados de empresa por parametros, si no hay parametros trae la lista completa de empleados de empresa.
 
     @GetMapping("/empresa")
     public ResponseEntity obtenerEmpleadosDeEmpresaPor(@RequestParam(required = false) Map<String, String> allParams) {

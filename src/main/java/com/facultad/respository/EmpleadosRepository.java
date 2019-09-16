@@ -5,10 +5,7 @@ import com.facultad.model.Empleado;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 @Component
