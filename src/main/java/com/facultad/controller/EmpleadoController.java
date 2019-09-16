@@ -28,18 +28,11 @@ public class EmpleadoController {
         }
     }
 
-    //Busca empleados por el nombre.
-
-    @GetMapping("/empleados/nombre")
-    public ResponseEntity mostrarEmpleadosPorNombre(@RequestParam String nombre) {
-        return new ResponseEntity(empleadoService.mostrarEmpleadosPorNombre(nombre), HttpStatus.OK);
-    }
-
     //Busca empleados con sueldo entre dos valores min y max.
 
-    @GetMapping("/empleados/sueldo")
-    public ResponseEntity BuscarPorSalario(@RequestParam(required = false) Double salario, Double salarioMax) {
-        return new ResponseEntity(empleadoService.obtenerEmpleadosPorSalario(salario, salarioMax), HttpStatus.OK);
+    @GetMapping("/empleados/salario")
+    public ResponseEntity BuscarPorSalario(@RequestParam(required = false) Double salarioMin, Double salarioMax) {
+        return new ResponseEntity(empleadoService.obtenerEmpleadosPorSalario(salarioMin, salarioMax), HttpStatus.OK);
     }
 
     //Borra empleado a partir de su dni.
