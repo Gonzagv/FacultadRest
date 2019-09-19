@@ -1,4 +1,4 @@
-package com.facultad.exceptions;
+package com.facultad.exceptions.empleado;
 
 //Excepcion ocurre cuando el empleado que se esta buscando no existe.
 

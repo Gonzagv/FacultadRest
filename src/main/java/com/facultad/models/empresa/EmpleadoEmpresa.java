@@ -1,4 +1,4 @@
-package com.facultad.modelEmpresa;
+package com.facultad.models.empresa;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.validation.constraints.NotEmpty;

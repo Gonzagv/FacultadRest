@@ -1,9 +1,9 @@
-package com.facultad.service;
+package com.facultad.services.empleado;
 
 import com.facultad.cliente.EmpresaCliente;
-import com.facultad.exceptions.EmpleadoNoExisteException;
-import com.facultad.model.Empleado;
-import com.facultad.modelEmpresa.EmpleadoEmpresa;
+import com.facultad.exceptions.empleado.EmpleadoNoExisteException;
+import com.facultad.models.empleado.Empleado;
+import com.facultad.models.empresa.EmpleadoEmpresa;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

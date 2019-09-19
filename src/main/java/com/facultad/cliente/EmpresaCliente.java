@@ -1,7 +1,7 @@
 package com.facultad.cliente;
 
-import com.facultad.exceptions.EmpleadoNoExisteException;
-import com.facultad.modelEmpresa.EmpleadoEmpresa;
+import com.facultad.exceptions.empleado.EmpleadoNoExisteException;
+import com.facultad.models.empresa.EmpleadoEmpresa;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +63,8 @@ public class EmpresaCliente {
     }
 
     /*
-     *Busca por parametro un lista de empleados de la empresa que correspondan con los parametros ingresados por el ususario,
-     *en caso de no enviar parametros devuelve la lista de todos los empleados de la empresa.
+      Busca por parametro un lista de empleados de la empresa que correspondan con los parametros ingresados por el ususario,
+      en caso de no enviar parametros devuelve la lista de todos los empleados de la empresa.
      */
 
     public List<EmpleadoEmpresa> obtenerEmpleadosDeEmpresaPorParametros(Map<String,String> allParams) throws Exception{

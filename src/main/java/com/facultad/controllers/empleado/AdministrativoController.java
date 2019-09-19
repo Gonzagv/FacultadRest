@@ -1,12 +1,12 @@
-package com.facultad.controller;
+package com.facultad.controllers.empleado;
 
-import com.facultad.exceptions.CargoIncorrectoException;
-import com.facultad.exceptions.EmpleadoExistenteException;
-import com.facultad.exceptions.EmpleadoNoExisteException;
-import com.facultad.exceptions.EmpleadoVacioException;
-import com.facultad.model.Administrativo;
-import com.facultad.model.CargoEnum;
-import com.facultad.service.AdministrativoService;
+import com.facultad.exceptions.empleado.CargoIncorrectoException;
+import com.facultad.exceptions.empleado.EmpleadoExistenteException;
+import com.facultad.exceptions.empleado.EmpleadoNoExisteException;
+import com.facultad.exceptions.empleado.EmpleadoVacioException;
+import com.facultad.models.empleado.Administrativo;
+import com.facultad.models.empleado.CargoEnum;
+import com.facultad.services.empleado.AdministrativoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

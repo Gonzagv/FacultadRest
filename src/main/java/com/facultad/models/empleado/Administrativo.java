@@ -1,4 +1,4 @@
-package com.facultad.model;
+package com.facultad.models.empleado;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

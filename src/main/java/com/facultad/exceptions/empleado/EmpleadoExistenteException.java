@@ -1,4 +1,4 @@
-package com.facultad.exceptions;
+package com.facultad.exceptions.empleado;
 
 //Excepcion ocurre cuando se quiere crear un empleado y este ya existe.
 

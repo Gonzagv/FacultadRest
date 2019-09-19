@@ -1,7 +1,7 @@
-package com.facultad.controller;
+package com.facultad.controllers.empresa;
 
-import com.facultad.exceptions.EmpleadoNoExisteException;
-import com.facultad.service.EmpleadoService;
+import com.facultad.exceptions.empleado.EmpleadoNoExisteException;
+import com.facultad.services.empleado.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

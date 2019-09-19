@@ -1,13 +1,13 @@
-package com.facultad.service;
+package com.facultad.services.empleado;
 
-import com.facultad.exceptions.CargoIncorrectoException;
-import com.facultad.exceptions.EmpleadoExistenteException;
-import com.facultad.exceptions.EmpleadoNoExisteException;
-import com.facultad.exceptions.EmpleadoVacioException;
-import com.facultad.model.CargoEnum;
-import com.facultad.model.Empleado;
-import com.facultad.modelEmpresa.EmpleadoEmpresa;
-import com.facultad.model.PersonalDeServicio;
+import com.facultad.exceptions.empleado.CargoIncorrectoException;
+import com.facultad.exceptions.empleado.EmpleadoExistenteException;
+import com.facultad.exceptions.empleado.EmpleadoNoExisteException;
+import com.facultad.exceptions.empleado.EmpleadoVacioException;
+import com.facultad.models.empleado.CargoEnum;
+import com.facultad.models.empleado.Empleado;
+import com.facultad.models.empresa.EmpleadoEmpresa;
+import com.facultad.models.empleado.PersonalDeServicio;
 import com.facultad.respository.EmpleadosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

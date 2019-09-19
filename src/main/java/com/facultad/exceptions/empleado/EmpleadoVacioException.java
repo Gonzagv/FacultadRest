@@ -1,4 +1,4 @@
-package com.facultad.exceptions;
+package com.facultad.exceptions.empleado;
 
 //Excepcion ocurre cuando el usuario ingresa mal los atributos de un empleado para crear o actualizar.
 

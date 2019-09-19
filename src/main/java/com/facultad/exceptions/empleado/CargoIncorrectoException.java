@@ -1,4 +1,4 @@
-package com.facultad.exceptions;
+package com.facultad.exceptions.empleado;
 
 //Excepcion ocurre cuando el cargo ingresado por el usuario no concuerda con cargo del empleado.
 

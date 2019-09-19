@@ -2,8 +2,9 @@
 
 ## Descripcion de servicio:
 
-Esta aplicacion se encarga de manejar los empleados de una Facultad con base de datos mongo, el usuario dispone  <br />
-de tres tipos de empleados: Personal de servicio, Profesores y Administrativos. <br />
+Esta aplicacion se encarga de manejar los empleados y estudiantes de una Facultad <br /> 
+con base de datos mongo. El usuario dispone de tres tipos de empleados: <br />
+Personal de servicio, Profesores y Administrativos. <br />
 A partir de estas clases podra buscar y borrar empleados. <br />
 Dentro de cada clase tambien dispone de las herramientas para crear y actualizar empleados en base a su cargo. <br />
 Esta aplicacion es capaz de ustilizar otro servicio con una base de datos de empleados, y a partir de este buscar un <br /> empleado y/o agregar este a su base de datos para luego actualizar su informacion correspondiente a su cargo. <br />
@@ -18,6 +19,8 @@ Esta aplicacion es capaz de ustilizar otro servicio con una base de datos de emp
 
 ## Body:
 
+-Empleado:  <br />
+
 { <br />
 	  "id": "5d7f8a24a7986c0b1a0d04ce", <br />
     "nombre": "sandro", <br />
@@ -31,6 +34,16 @@ Esta aplicacion es capaz de ustilizar otro servicio con una base de datos de emp
     "materia": "Matematicas", <br />
     "catedra": "Saens Peña" <br />
 } <br />
+
+-Estudiante: <br />
+
+{<br />
+"nombre": "Pedro",<br />
+"apellido": "Ramirez",<br />
+"dni": "40506073",<br />
+"curso": "1°A",<br />
+"accesoComedor":"true"<br />
+}<br />
 
 ## Endpoints:
 
@@ -80,11 +93,28 @@ En caso de no tener parametros ingresados muestra la lista de todos los empleado
 *Ej: http://10.2.19.18:8080/api/empresa??cargo=VENDEDOR&nombre=sandro, buscar todos los empleados que tengan <br />
 cargo vendedor y tmabien nombre sandro.* <br />
 
+Estudiantes:
+
+1- http://10.2.19.18:8080/v1/api/estudiantes/{dni}  <br />
+2- "Busca un estudiante a partir de su dni."  <br />
+
+1- http://10.2.19.18:8080/v1/api/estudiantes? <br />
+2- "Busca a partir de parametros ingresados por el usuario un estudiante o una lista de <br />
+estudiantes que cumplan con los paramentros ingresados. En caso de no haber parametros devuelve<br />
+la lista completa de estudiantes" <br />
+
 
 Método Delete:<br />
 
+Empleados:<br />
+
 1- http://10.2.19.18/v1/api/empleados/{dni} <br />
 2- "Borra empleado a partir de su Dni." <br />
+
+Estudiantes:<br />
+
+1- http://10.2.19.18/v1/api/estudiantes/{dni} <br />
+2- "Borra estudiante a partir de su Dni."
 
 Métodos Post:<br />
 
@@ -103,6 +133,11 @@ ADMINISTRATIVO,PROFESOR,PERSONAL_DE_SERVICIO. <br />
 1- http://10.2.19.18:8080/v1/api/empleados/personaldeservicios <br />
 2- "Crea empleado a partir de los atributos de un empleado del personal de servicio. <br />
 (Recordar utilizar el cargo correcto) <br />
+
+Estudiantes : <br />
+
+1- http://10.2.19.18:8080/v1/api/estudiantes
+2- "Crea y agrega a la base un estudiante de la facultad."
 
 Empleados Empresa: <br />
 
@@ -127,10 +162,16 @@ el Dni de cada empleado es unico e no intercambiable." <br />
 2- "Actualiza al empleado con cargo personal de servicio a partir de su Dni, puede agregar y/o cambiar atributos." <br />
 
 1- http://10.2.19.18:8080/v1/api/empleados/profesores/{dni} <br />
-2- "Actualiza al empleado con cargo profesor a partir de su Dni, puede agregar y/o cambiar atributos." <br />
+2- "Actualiza al empleado con cargo profesor a partir de su Dni, puede agregar <br />
+y/o cambiar atributos." <br />
 
 1- http://10.2.19.18:8080/v1/api/empleados/administrativos/{dni} <br />
-2- "Actualiza al empleado con cargo administrativo a partir de su Dni, puede agregar y/o cambiar atributos." <br />
+2- "Actualiza al empleado con cargo administrativo a partir de su Dni, puede agregar y/o cambiar <br /> atributos." <br />
+
+Estudiantes: <br />
+
+1- http://10.2.19.18:8080/v1/api/estudiantes/{dni}<br />
+2- "Actualiza los atributos de un estudiante de la facultad, no es posible cambiar su Dni." <br />
 
 
 

@@ -1,7 +1,7 @@
 package com.facultad.respository;
 
-import com.facultad.model.CargoEnum;
-import com.facultad.model.Empleado;
+import com.facultad.models.empleado.CargoEnum;
+import com.facultad.models.empleado.Empleado;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Component;
