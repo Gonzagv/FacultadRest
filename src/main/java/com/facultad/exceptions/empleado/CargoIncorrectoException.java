@@ -7,3 +7,4 @@ public class CargoIncorrectoException extends Exception {
         super(mensaje);
     }
 }
+

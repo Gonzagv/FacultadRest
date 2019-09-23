@@ -1,15 +1,13 @@
 package com.facultad.services.estudiante;
 
-import com.facultad.exceptions.estudiante.EstudianteCambioDni;
+import com.facultad.exceptions.estudiante.EstudianteCambioDniExcepcion;
 import com.facultad.exceptions.estudiante.EstudianteExistenteException;
 import com.facultad.exceptions.estudiante.EstudianteNoExisteException;
 import com.facultad.exceptions.estudiante.EstudianteVacioException;
-import com.facultad.models.empleado.Empleado;
 import com.facultad.models.estudiante.Estudiante;
 import com.facultad.respository.EstudiantesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +19,8 @@ public class EstudianteService {
     @Autowired
     EstudiantesRepository estudiantesRepository;
 
+    //Obtiene un estudiante de la facultad a partir de su dni.
+
     public Estudiante obtenerEstudiante(String dni) throws Exception {
         if (estudiantesRepository.existsByDni(dni)) {
             return estudiantesRepository.findByDni(dni);
@@ -29,9 +29,13 @@ public class EstudianteService {
         }
     }
 
+    //Obtiene la lista de todos los estudiantes de la facultad.
+
     public List<Estudiante> obtenerEstudiantes() throws Exception {
         return estudiantesRepository.findAll();
     }
+
+    //Borra estudiante a partir de su dni.
 
     public Long borrarEstudiante(String dni) throws Exception {
         if (estudiantesRepository.existsByDni(dni)) {
@@ -40,6 +44,8 @@ public class EstudianteService {
             throw new EstudianteNoExisteException("No existe el empleado que desea borrar.");
         }
     }
+
+    //Crea y agrega a la base un estudiante de la facultad.
 
     public Estudiante crearEstudiante(Estudiante estudiante) throws Exception {
         if (estudiante == null) {
@@ -53,6 +59,8 @@ public class EstudianteService {
         }
     }
 
+    //Actualiza agregando y/o cambiando parametros ya existentes.
+
     public Estudiante actualizarEstudiante(String dni, Estudiante estudiante) throws Exception {
         if (estudiante == null) {
             throw new EstudianteVacioException("Los atributos del estudiante son incorrectos.");
@@ -61,13 +69,15 @@ public class EstudianteService {
                 if (estudiante.getDni().equals(dni)) {
                     return estudiantesRepository.save(estudiante);
                 } else {
-                    throw new EstudianteCambioDni("Error, no puede cambiar el dni de un estudiante.");
+                    throw new EstudianteCambioDniExcepcion("Error, no puede cambiar el dni de un estudiante.");
                 }
             } else {
                 throw new EstudianteNoExisteException("El estudiante ingresado no existe.");
             }
         }
     }
+
+    //Obtiene una lista a partir de los parametros ingresados, si no se ingresan trae todos los empleados de la facultad.
 
     public List<Estudiante> buscarEstudiantes(Map<String, String> allParams) {
         if (allParams.isEmpty()) {

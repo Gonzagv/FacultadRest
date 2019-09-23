@@ -19,6 +19,8 @@ public class EstudianteController {
     @Autowired
     EstudianteService estudianteService;
 
+    //Obtiene empleado de la facultad a partir de su dni.
+
     @GetMapping("/estudiantes/{dni}")
     public ResponseEntity obtenerEstudiante(@PathVariable String dni){
         try {
@@ -30,14 +32,7 @@ public class EstudianteController {
         }
     }
 
-    /*@GetMapping("/estudiantes")
-    public ResponseEntity obtenerEstudiantes(){
-        try {
-            return new ResponseEntity(estudianteService.obtenerEstudiantes(), HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
-        }
-    }*/
+    //Borra estudiante de la facultad a partir de su dni.
 
     @DeleteMapping("/estudiantes/{dni}")
     public ResponseEntity borrarEstudiante(@PathVariable String dni){
@@ -49,6 +44,8 @@ public class EstudianteController {
             return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
+
+    //Crea y agrega a la base un estudiante de la facultad.
 
     @PostMapping("/estudiantes")
     public ResponseEntity crearEstudiante(@RequestBody Estudiante estudiante){
@@ -63,6 +60,8 @@ public class EstudianteController {
         }
     }
 
+    //Actualiza empleado agregando y/o corrigiendo parametros existentes.
+
     @PutMapping("/estudiantes")
     public ResponseEntity actualizarEstudiante(@PathVariable String dni, @RequestBody Estudiante estudiante){
         try {
@@ -75,6 +74,9 @@ public class EstudianteController {
             return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
+
+    /*Obtiene una lista de empleados que coincidan con los parametros ingresados, si no se ingresan devuelve
+     la lista de todos lo estudiantes de la facultad.*/
 
     @GetMapping("/estudiantes")
     public ResponseEntity obtenerEmpleadosPor(@RequestParam(required = false) Map<String, String> allParams) {

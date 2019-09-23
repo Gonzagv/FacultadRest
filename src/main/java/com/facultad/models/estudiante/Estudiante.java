@@ -20,23 +20,15 @@ public class Estudiante {
     @NotEmpty
     @Pattern(regexp = "^(\\d{7}|\\d{8})$", message = "El dni tiene que tener 7 u 8 numeros")
     private String dni;
-    private String curso;
-    private boolean accesoComedor;
+    private String carrera;
+    private Integer materiasAprobadas;
 
-    public String getCurso() {
-        return curso;
+    public String getCarrera() {
+        return carrera;
     }
 
-    public void setCurso(String curso) {
-        this.curso = curso;
-    }
-
-    public boolean isAccesoComedor() {
-        return accesoComedor;
-    }
-
-    public void setAccesoComedor(boolean accesoComedor) {
-        this.accesoComedor = accesoComedor;
+    public void setCarrera(String carrera) {
+        this.carrera = carrera;
     }
 
     public String getId() {
@@ -71,13 +63,21 @@ public class Estudiante {
         this.dni = dni;
     }
 
-    public Estudiante(String id, @Pattern(regexp = "^[\\p{L}]+", message = "Nombre no debe contener numeros.") String nombre, @Pattern(regexp = "^[\\p{L}]+", message = "Nombre no debe contener numeros.") String apellido, @NotNull @NotEmpty @Pattern(regexp = "^(\\d{7}|\\d{8})$", message = "El dni tiene que tener 7 u 8 numeros") String dni, String curso, boolean accesoComedor) {
+    public Integer getMateriasAprobadas() {
+        return materiasAprobadas;
+    }
+
+    public void setMateriasAprobadas(Integer materiasAprobadas) {
+        this.materiasAprobadas = materiasAprobadas;
+    }
+
+    public Estudiante(String id, @Pattern(regexp = "^[\\p{L}]+", message = "Nombre no debe contener numeros.") String nombre, @Pattern(regexp = "^[\\p{L}]+", message = "Nombre no debe contener numeros.") String apellido, @NotNull @NotEmpty @Pattern(regexp = "^(\\d{7}|\\d{8})$", message = "El dni tiene que tener 7 u 8 numeros") String dni, String carrera, Integer materiasAprobadas) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
-        this.curso = curso;
-        this.accesoComedor = accesoComedor;
+        this.carrera = carrera;
+        this.materiasAprobadas = materiasAprobadas;
     }
 
     public Estudiante() {

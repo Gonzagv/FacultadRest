@@ -41,8 +41,8 @@ Esta aplicacion es capaz de ustilizar otro servicio con una base de datos de emp
 "nombre": "Pedro",<br />
 "apellido": "Ramirez",<br />
 "dni": "40506073",<br />
-"curso": "1°A",<br />
-"accesoComedor":"true"<br />
+"carrera": "Filosofia",<br />
+"materiasAprobadas":10 <br />
 }<br />
 
 ## Endpoints:
